@@ -1,9 +1,16 @@
 var mongoose = require('mongoose');
-var Hotel = mongoose.model('Hotel');
+var User = mongoose.model('User');
 var bcrypt = require('bcrypt');
+
+//app.set("view engine","ejs");
 //var bodyparser = require('body-parser');
 
+module.exports.LandingPage = function(req,res)
+{
+    res.render("landing");
+};
 
+//Signup
 module.exports.AddUser = function (req, res) {
 
    // var db = dbconn.get();
@@ -13,7 +20,7 @@ module.exports.AddUser = function (req, res) {
     //console.log("db", db);
     console.log("POST new User");
 
-
+    
     var userName = req.body.userName;
     var password = req.body.password;
     var name = req.body.name;
@@ -56,48 +63,47 @@ module.exports.AddUser = function (req, res) {
 
 };
 
-
+//Login
 module.exports.VerifyUser = function(req,res){
 
     console.log("POST Login");
+    //res1.render("login");
     
     var userName = req.body.userName;
     var password = req.body.password;
 
     //fetch hashed password for the given userName
-    hash = "$2a$10$rx3k2p7va6ULW3AROSECn.3SwF1TieKdN3ubYiT6TCdNRt7vKN.E6";
-    password = "akash123";
-    bcrypt.compare(password, hash, function(err, res) {
-        if(res==true)
-        {
-            //render the home page
-        }
+    //hash = "$2a$10$rx3k2p7va6ULW3AROSECn.3SwF1TieKdN3ubYiT6TCdNRt7vKN.E6";
+    //password = "akash123";
+    
+    User.findOne({ 'userName': userName }, 'password', function (err, user) {
+        if (err) return handleError(err);
+        // Prints "Space Ghost is a talk show host".
+        console.log('%s', user.password);
+        var hash = user.password;
+      
+        bcrypt.compare(password, hash, function(err, res2) {
+            if(res2==true)
+            {   
+                console.log("passwords matched");
+                console.log("err "+err);
+
+                res.render("login");
+                //render the home page
+            }
+        });
+        bcrypt.compare(password, hash, function(err, res3) {
+            if(res3==false)
+            {
+                console.log("passwords dint match");
+                //post an error saying paaword or userName is wrong
+            }
+        });
+
+        
     });
-    bcrypt.compare(password, hash, function(err, res) {
-        if(res==false)
-        {
-            //post an error saying paaword or userName is wrong
-        }
-    });
-
-
-
-
+    
 };
-/*
-hash = "$2a$10$rx3k2p7va6ULW3AROSECn.3SwF1TieKdN3ubYiT6TCdNRt7vKN.E6";
-    password = "akash123";
-bcrypt.compare(password, hash, function(err, res) {
-    // res == true
-    if(res==true)
-        console.log("same");
-});
-bcrypt.compare(password, hash, function(err, res) {
-    if(res==false)
-        console.log("diff");
-});
-
-*/
 
 
 

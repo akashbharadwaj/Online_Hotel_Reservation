@@ -8,7 +8,10 @@ var routes = require('./api/routes');
 var bcrypt = require('bcrypt'); 
 // Define the port to run on
 app.set('port', 3000);
-
+//app.engine('ejs',require('ejs').renderFile);
+app.set("view engine","ejs");
+console.log(__dirname);
+app.set('views',path.join(__dirname+'/api/views/'));
 // Set static directory before defining routes
 app.use(express.static(path.join(__dirname, 'public')));
 

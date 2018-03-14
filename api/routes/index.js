@@ -4,6 +4,10 @@ var router = express.Router();
 var ctrlHotels = require('../controllers/hotels.controllers.js');
 var ctrlUsers = require('../controllers/users.controllers.js');
 
+
+router 
+    .route('/')
+    .get(ctrlUsers.LandingPage);
 router
     .route('/hotels')
     .get(ctrlHotels.hotelsGetAll);
