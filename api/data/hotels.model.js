@@ -72,4 +72,4 @@ var hotelSchema = new mongoose.Schema({
     }*/
 });
 // compiling schema into model
-mongoose.model('Hotel',hotelSchema,'hotels');
+mongoose.model('Hotel',hotelSchema,'hotelData');

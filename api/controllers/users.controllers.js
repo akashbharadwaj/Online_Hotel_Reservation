@@ -59,7 +59,7 @@ module.exports.AddUser = function (req, res) {
 
 module.exports.VerifyUser = function(req,res){
 
-    console.log("GET Login");
+    console.log("POST Login");
     
     var userName = req.body.userName;
     var password = req.body.password;
