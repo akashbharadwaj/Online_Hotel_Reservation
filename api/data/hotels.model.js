@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 //nested schemas
+
 var reviewsSchema = new mongoose.Schema({
     name :{
         type: String,
@@ -35,7 +36,6 @@ var roomSchema = new mongoose.Schema({
 
 
 });
-
 var hotelSchema = new mongoose.Schema({
     name : {
         type : String,
@@ -68,4 +68,4 @@ var hotelSchema = new mongoose.Schema({
 
 });
 // compiling schema into model
-mongoose.model('Hotel',hotelSchema,'hotels');
+mongoose.model('Hotel',hotelSchema,'hotelsData');
