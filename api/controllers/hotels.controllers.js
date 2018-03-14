@@ -155,7 +155,7 @@ module.exports.hotelsGetOne = function (req, res) {
 module.exports.hotelsAddOne = function (req, res) {
 
     var db = dbconn.get();
-    var collection = db.collection('hotels');
+    var collection = db.collection('hotelData');
     var newhotel;
 
     //console.log("db", db);

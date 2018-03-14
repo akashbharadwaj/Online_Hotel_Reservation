@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 //nested schemas
-
+/*
 var reviewsSchema = new mongoose.Schema({
     name :{
         type: String,
@@ -26,7 +26,7 @@ var reviewsSchema = new mongoose.Schema({
 
 
 });
-
+*/
 var roomSchema = new mongoose.Schema({
     type : String,
     number : Number,
@@ -36,11 +36,16 @@ var roomSchema = new mongoose.Schema({
 
 
 });
+
 var hotelSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true
     },
+    location : String,
+    locationCode : String,
+    rating : Number,
+    /*
     stars : {
         type: Number,
         min: 0,
@@ -48,24 +53,23 @@ var hotelSchema = new mongoose.Schema({
         "default": 0
 
 
-    },
+    },*/
     description : String,
     services : [String],
     photos : [String],
-    currency : String,
-    reviews : [reviewsSchema],
+    //currency : String,
+    //reviews : [reviewsSchema],
     rooms : [roomSchema],
-    location : {
+    flagDeleted : Boolean
+    /*
+    location : {        
         address : String,
         //Always store latitutude(N/S) and longititude (E/W)
         coordinates : {
             type: [Number],
             index : '2dsphere'
-    }
-},
-
-
-
+        }
+    }*/
 });
 // compiling schema into model
-mongoose.model('Hotel',hotelSchema,'hotelsData');
+mongoose.model('Hotel',hotelSchema,'hotels');
