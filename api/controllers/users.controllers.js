@@ -10,7 +10,32 @@ module.exports.LandingPage = function(req,res)
     res.render("landing");
 };
 
-//Signup
+
+
+module.exports.SignupPage = function(req,res)
+{
+    res.render("signupPage");
+};
+
+
+module.exports.signUpUnameExists = function(req,res)
+{   
+    var userName = req.body.userName;
+    User.findOne({ 'userName': userName },'userName',function (err, user) {
+        if(User.userName!="")
+        {
+            
+        }
+
+    })
+
+    res.render("signupPage");
+};
+
+
+
+
+//Create new user
 module.exports.AddUser = function (req, res) {
 
    // var db = dbconn.get();

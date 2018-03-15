@@ -9,7 +9,6 @@ router
     .route('/')
     .get(ctrlUsers.LandingPage);
 
-
 router
     .route('/hotels')
     .get(ctrlHotels.hotelsGetAll);
@@ -34,6 +33,10 @@ router
     
 */
 router
+    .route('/signUpPage')
+    .get(ctrlUsers.SignupPage);
+
+router
     .route('/signUp')
     .post(ctrlUsers.AddUser);
 
@@ -41,5 +44,8 @@ router
     .route('/login')
     .post(ctrlUsers.VerifyUser);
 
+router 
+    .route('/signUpUnameExists')
+    .post(ctrlUsers.signUpUnameExists);
 
 module.exports = router;
