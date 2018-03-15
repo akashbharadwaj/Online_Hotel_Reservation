@@ -1,36 +1,57 @@
+$(function() {
 
-$("#submit").on("submit",function(event){
+$("#submit").on("click",function(event){
 
     event.preventDefault();
-    var x = $("fullName").val();
-    var y = $("email").val();
-    var z = $("password").val();
-    var errMsg = $("displayErrors");
-    errMsg.classList.add("red");
+
+    var x = $("#fullName").val();
+    var y = $("#email").val();
+    var z = $("#password").val();
+    var errMsg = $("#displayErrors");
+    console.log("x:"+x+"-y:"+y+"-z:"+z);
+   // errMsg.classList.add("red");
     if(x=="" || y=="" || z=="")
     {
-        errMsg.innerHTML = "All fields are mandatory";
+        errMsg.html("All fields are mandatory");
         //document.getElementById("displayErrors").style.color= "red";
-        
+        window.notEmpty = false;
         
     }
-    else
-    {
-
-	$.ajax({
-
-        url: "/api/signUpUnameExists",
-        method: POST,
-        contentType: "application/json",
-        data: JSON.stringify({userName: y }),
-        success: function(response) {
-               
-               
-        },
-        error: function() { alert("error loading file");  }
-    });
-}
+    else{
+        console.log("ajax");
+        var data = {"userName": y ,"password": z, "name": x};
+        $.ajax({
+           
+            url: "http://localhost:3000/api/signUpUnameExists",
+            type: "POST",
+            //contentType: "urlencoded",
+            data: data,
+            dataType:"JSON",
+            success: function(data) {
+                   console.log("Success");
+                   
+            },
+            error: function() { alert("error loading file");  }
+        });
+        
+    }
 });
+});
+/*
+var data = {};
+					data.title = "title";
+					data.message = "message";
+					
+					$.ajax({
+						type: 'POST',
+						data: JSON.stringify(data),
+				        contentType: 'application/json',
+                        url: 'http://localhost:3000/endpoint',						
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
 
 /*
 document.getElementById("subBtn").addEventListener("click", function(event){

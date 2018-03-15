@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var bcrypt = require('bcrypt');
+//var express = require('express');
+//var app = express();
 
 //app.set("view engine","ejs");
 //var bodyparser = require('body-parser');
@@ -20,16 +22,67 @@ module.exports.SignupPage = function(req,res)
 
 module.exports.signUpUnameExists = function(req,res)
 {   
+    console.log("SignUp Exists");
+    //console.log(req);
+    //var data = JSON.parse(req.body);
+    
     var userName = req.body.userName;
-    User.findOne({ 'userName': userName },'userName',function (err, user) {
-        if(User.userName!="")
-        {
+    var password = req.body.password;
+    var name = req.body.name;
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hash) {
+
+            if(err)
+            {
+                console.log(err);
+            }
+            else
+                console.log(hash);
+                password = hash;
+                var data = {
+                    userName : userName,
+                    password : password,
+                    name : name,
+                    access : 0
             
-        }
-
-    })
-
-    res.render("signupPage");
+                };
+                User.findOne({ 'userName': userName },'userName',function (err, user) {
+                    console.log(user);
+                    if(user==null)
+                    {   
+                        console.log("user");
+                        console.log("how");
+                        //save the user record
+                        var userRecord = new User(data);
+                        userRecord.save(function(err){
+                        if(err)
+                        {
+                            console.log("error");
+                            console.log(err);
+                            //res.render("homepage");
+                        }
+                        else
+                            console.log("Why");
+                            console.log("success");
+                           // res.render("homepage");
+                            //res.send("sucess");
+                            res.json({"name" : "Aknhsdcj"});
+                        });
+                        //User.save
+                    }
+                    else
+                    {
+                        res.render("homepage");
+                    }
+                })
+            // Store hash in your password DB.
+        });
+    });
+    //console.log(password);
+    //console.log("name"+name+",Uname"+userName+",password"+password);
+    
+    
+   
 };
 
 
