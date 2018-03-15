@@ -50,14 +50,7 @@ var runGeoQuery = function (req, res) {
 };
 
 module.exports.hotelsGetAll = function (req, res) {
-
-
-    // var db = dbconn.get();
-    // var collection = db.collection('hotels');
-    // console.log("db",db);
-    //console.log("GET the hotels yo baby");
-
-
+    //
     var offset = 0;
     var count = 5;
 
@@ -79,42 +72,14 @@ module.exports.hotelsGetAll = function (req, res) {
         .skip(offset)
         .limit(count)
         .exec(function (err, hotels) {
-            //hotels is an array - to get how many of them using hotels.length
+            
             console.log("Found hotels", hotels.length);
             res
                 .json(hotels);
 
 
         });
-
-
-    // collection
-    //     .find()
-    //     .skip(offset)
-    //     .limit(count)
-    //     .toArray(function (err, docs) {
-    //         //console.log("hotels found", docs);
-    //         res
-    //             .status(200)
-    //             .json(docs);
-
-
-    //     }
-
-    //     );
-
-    //to get the query strings from url
-
-    //console.log(req.query);
-
-
-    /*
-        var returnData = hotelData.slice(offset, offset + count);
-        res
-            .status(200)
-            .json(returnData);
-            */
-};
+    };//
 
 module.exports.hotelsGetOne = function (req, res) {
 
@@ -132,25 +97,7 @@ module.exports.hotelsGetOne = function (req, res) {
                 .status(200)
                 .json(doc);
         });
-
-
-
-
-
-
-    /*
-        .findOne({
-            _id: ObjectId(hotelId)
-        }, function (err, doc) {
-            res
-                .status(200)
-                .json(doc);
-        }
-
-
-        );
-*/
-};
+    };//
 
 module.exports.hotelsAddOne = function (req, res) {
 

@@ -80,7 +80,7 @@
     "name": "Grand Hotel Palatino",
     "stars": 4,
     "description": "Just a 5-minute walk from the Coliseum and 100 metres from Cavour Metro, Grand Hotel Palatino is in Rome's Monti District. It offers an American bar and 2 restaurants. Wi-Fi is free throughout. Rooms at the Grand Hotel are air conditioned and come with a minibar and satellite TV. Some have views of Rome’s rooftops.\nLe Erbe restaurant offers international cuisine in elegant surroundings, while Le Spighe specialises in Roman dishes and classic Italian cooking. Breakfast starts at 06:30.\nThe Forum and the Parco di Traiano are both less than a 10-minute walk from the hotel. Termini Train Station is one metro stop away, as is Esquilino with its markets and many ethnic restaurants.\nRione Monti is a great choice for travellers interested in sightseeing, food and monuments.",
-    "photos": ["/photos/hotel/grandhotelpalatino/1.jpg", "/photos/hotel/grandhotelpalatino/2.jpg", "/photos/hotel/grandhotelpalatino/3.jpg"],
+    "photos": ["/photos/hotel/hiltondallas/1.jpg", "/photos/hotel/grandhotelpalatino/2.jpg", "/photos/hotel/grandhotelpalatino/3.jpg"],
     "currency": "€",
     "rooms": [{
         "type": "Standard Plus Double Room",
@@ -139,7 +139,7 @@
         "type": "Standard Single Room",
         "number": 50,
         "description": "These are small rooms",
-        "photos": ["/photos/room/hoteldanncarltonbelfortmedellin/2.jpg", "/photos/room/hoteldanncarltonbelfortmedellin/5.jpg"],
+        "photos": ["/photos/room/hotelhiltondallassingleroom/2.jpg", "/photos/room/hoteldanncarltonbelfortmedellin/5.jpg"],
         "price": 1000000
     }, {
         "type": "Standard Double Room",

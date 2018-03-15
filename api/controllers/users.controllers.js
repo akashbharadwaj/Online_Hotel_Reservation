@@ -88,7 +88,7 @@ module.exports.VerifyUser = function(req,res){
                 console.log("passwords matched");
                 console.log("err "+err);
 
-                res.render("login");
+                res.render("homepage");
                 //render the home page
             }
         });
@@ -96,6 +96,7 @@ module.exports.VerifyUser = function(req,res){
             if(res3==false)
             {
                 console.log("passwords dint match");
+                res.render("loginerr");
                 //post an error saying paaword or userName is wrong
             }
         });
