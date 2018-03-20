@@ -62,11 +62,13 @@ module.exports.signUpUnameExists = function(req,res)
                             //res.render("homepage");
                         }
                         else
-                            console.log("Why");
+                        {
+                            
                             console.log("success");
                            // res.render("homepage");
                             //res.send("sucess");
                             res.json({"name" : "Aknhsdcj"});
+                        }
                         });
                         //User.save
                     }
@@ -88,6 +90,20 @@ module.exports.signUpUnameExists = function(req,res)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 //Create new user
 module.exports.AddUser = function (req, res) {
 
@@ -116,7 +132,7 @@ module.exports.AddUser = function (req, res) {
         });
     });
 
-
+    */
     /*
     if (req.body && req.body.name && req.body.stars) {
         newhotel = req.body;
@@ -139,9 +155,10 @@ module.exports.AddUser = function (req, res) {
 
     */
 
-};
+
 
 //Login
+
 module.exports.VerifyUser = function(req,res){
 
     console.log("POST Login");
@@ -149,36 +166,59 @@ module.exports.VerifyUser = function(req,res){
     
     var userName = req.body.userName;
     var password = req.body.password;
-
+    var access;
     //fetch hashed password for the given userName
     //hash = "$2a$10$rx3k2p7va6ULW3AROSECn.3SwF1TieKdN3ubYiT6TCdNRt7vKN.E6";
     //password = "akash123";
     
-    User.findOne({ 'userName': userName }, 'password', function (err, user) {
+    User.find({ 'userName': userName }, function (err, user) {
         if (err) return handleError(err);
-        // Prints "Space Ghost is a talk show host".
-        console.log('%s', user.password);
-        var hash = user.password;
-      
-        bcrypt.compare(password, hash, function(err, res2) {
-            if(res2==true)
-            {   
-                console.log("passwords matched");
-                console.log("err "+err);
+        if(user.length!=0)
+        {   
+            console.log(user);
 
-                res.render("homepage");
-                //render the home page
-            }
-        });
-        bcrypt.compare(password, hash, function(err, res3) {
-            if(res3==false)
-            {
-                console.log("passwords dint match");
-                res.render("loginerr");
-                //post an error saying paaword or userName is wrong
-            }
-        });
+            // Prints "Space Ghost is a talk show host".
+            user.forEach((result)=>{
+                passwordDb = result.password;
+                access = result.access;
+                //console.log(password + access);
+            })
 
+            console.log(passwordDb);
+            console.log(access);
+            //console.log(user.access);
+            var hash = passwordDb;
+            console.log(hash);
+            bcrypt.compare(password, hash, function(err, res2) {
+                if(res2==true)
+                {   
+                    console.log("inside bcrypt");
+                    if(access==1)
+                    {
+                        User_Admin = true;
+                    }
+                    
+                    console.log("passwords matched");
+                    console.log("err "+err);
+                    console.log(User_Admin);
+                    res.render("homepage");
+                    //render the home page
+                }
+            });
+            bcrypt.compare(password, hash, function(err, res3) {
+                if(res3==false)
+                {
+                    console.log("passwords dint match");
+                    res.render("loginerr");
+                    //post an error saying paaword or userName is wrong
+                }
+            });
+
+        }
+        else{
+            //
+            res.render("loginerr");
+        }
         
     });
     

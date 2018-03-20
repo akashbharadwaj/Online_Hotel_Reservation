@@ -8,7 +8,7 @@ var ctrlUsers = require('../controllers/users.controllers.js');
 router 
     .route('/')
     .get(ctrlUsers.LandingPage);
-
+/*
 router
     .route('/hotels')
     .get(ctrlHotels.hotelsGetAll);
@@ -16,10 +16,37 @@ router
 router
     .route('/hotels/:hotelId')
     .get(ctrlHotels.hotelsGetOne);
+*/
+router
+    .route('/hotels/list')
+    .get(ctrlHotels.listHotels);
 
 router
-    .route('/hotels/new')
-    .post(ctrlHotels.hotelsAddOne);
+    .route('/hotel/new')
+    .post(ctrlHotels.addHotel);
+
+router
+    .route('/hotels/:hotelName/delete')
+    .get(ctrlHotels.deleteHotel);
+
+router
+    .route('/hotel/:hotelName/update')
+    .post(ctrlHotels.updateHotel);
+router
+    .route('/hotel/:hotelName/:roomType/update')
+    .post(ctrlHotels.updateHotelRoom);
+router
+    .route('/hotel/:hotelName/:roomType/delete')
+    .delete(ctrlHotels.deleteHotelRoom);
+
+/*
+router
+    .route('/hotel/room/update')
+    .post(ctrlHotels.updateRoom);
+*/
+router
+    .route('/hotel/room/new')
+    .post(ctrlHotels.addHotelRoom);
 
 //to get reviews
 /*
@@ -35,11 +62,11 @@ router
 router
     .route('/signUpPage')
     .get(ctrlUsers.SignupPage);
-
+/*
 router
     .route('/signUp')
     .post(ctrlUsers.AddUser);
-
+*/
 router 
     .route('/login')
     .post(ctrlUsers.VerifyUser);

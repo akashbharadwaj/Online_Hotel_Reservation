@@ -1,0 +1,146 @@
+//Update query for subdocuments
+/*
+                Hotel.updateOne({ '_id': hotel._id },{
+                    $push : {"rooms" : {"type" : toUpdateData[0]}}
+                           
+                }).catch(function(err,affected,resp){
+
+                    console.log(err);
+
+                });
+                */
+
+
+/* 
+            Hotel.findOneAndUpdate(
+                { "name": name },
+                {
+                    "$push": {
+                        "rooms":[ {
+                            "roomType": req.body.type,
+                            "number": req.body.number,
+                            "description": req.body.description,
+                            "photos": [req.body.photos,"/photos/room/hotelhiltondallassingleroom/2.jpg"],
+                            "price": req.body.price
+                        
+                        }]
+                    }
+                },
+                { "new": true }, // return the modified document
+                function(err, roomsHotel) {
+                    if (err) {
+                        console.log('NO SUCH rooms');
+                        res.json(err);
+                    } else {
+                        console.log(roomsHotel); // modified document
+                        res.json("success");
+                    }
+                }
+            );
+            }
+            
+            
+            if (toUpdateData[1]!=undefined)
+            {
+                //update location
+                console.log(toUpdateData[1]);
+                //console.log(toUpdateData[0]);
+                
+                Hotel.findOne({'rooms.type' : toUpdateData[0]},function(err,doc){
+                    if(err)
+                    {
+                        console.log(err);
+                    }
+                    else
+                    {
+                        console.log("Line 400");
+                        console.log(doc);
+                        Hotel.updateOne({ '_id': doc._id },{
+                            $set : {"rooms" : {"number" : toUpdateData[1]}}
+                                   
+                        }).catch(function(err,affected,resp){
+        
+                            console.log(err);
+        
+                        });
+                    
+                    }
+                  }).catch(function(err,affected,resp){
+
+                    console.log(err);
+
+                });
+            }
+            
+            if (toUpdateData[2]!=undefined)
+            {
+                //update description
+                console.log(toUpdateData[2]);
+                
+               
+                Hotel.findOne({ '_id': room._id }, function (err, doc){
+                    if(err)
+                    {
+                        console.log(err);
+                    }
+                    else
+                    {
+                    doc.description = toUpdateData[2];
+                    doc.save();
+                    
+                    }
+                  });
+                  
+            }
+            if (toUpdateData[4]!=undefined)
+            {
+                //update description
+                console.log(toUpdateData[2]);
+                
+               
+                Hotel.findOne({ '_id': room._id }, function (err, doc){
+                    if(err)
+                    {
+                        console.log(err);
+                    }
+                    else
+                    {
+                    doc.description = toUpdateData[4];
+                    doc.save();
+                    
+                    }
+                  });
+                  
+            }
+            if (toUpdateData[3]!=undefined)
+            {
+                //update services
+                console.log(toUpdateData[3]);
+                Hotel.updateOne({ '_id': room._id },{
+                    $push : {"photos" : toUpdateData[3]}
+                           
+                }).catch(function(err,affected,resp){
+
+                    console.log(err);
+
+                });
+                
+            }
+            
+           
+        //res.json("success");
+        
+        }
+        
+        else
+        {
+            //send error message
+            res.json("Hotel does not exist");
+        }
+
+    }
+    });
+
+
+
+}
