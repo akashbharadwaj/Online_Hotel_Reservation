@@ -19,3 +19,4 @@ mongoose.connection.on('error',function(err){
 //Bring in schema and models
 require('./hotels.model.js');
 require('./users.model.js');
+require('./bookings.model.js');

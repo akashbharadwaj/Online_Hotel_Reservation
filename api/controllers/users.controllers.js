@@ -197,7 +197,10 @@ module.exports.VerifyUser = function(req,res){
                     {
                         User_Admin = true;
                     }
-                    
+                    else
+                    {
+                        User_Name = userName;
+                    }
                     console.log("passwords matched");
                     console.log("err "+err);
                     console.log(User_Admin);

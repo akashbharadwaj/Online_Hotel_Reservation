@@ -31,8 +31,8 @@ var hotelSchema = new mongoose.Schema({
             number : Number,
             description : String,
             photos : [String],
-            price : Number
-
+            price : Number,
+            flagDeletedRooms : Boolean
         }
     ],
     flagDeleted : Boolean

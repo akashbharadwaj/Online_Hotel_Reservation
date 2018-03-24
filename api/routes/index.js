@@ -3,20 +3,21 @@ var router = express.Router();
 
 var ctrlHotels = require('../controllers/hotels.controllers.js');
 var ctrlUsers = require('../controllers/users.controllers.js');
-
+var ctrlBookings = require('../controllers/bookings.controllers.js');
 //Home Page
 router 
     .route('/')
     .get(ctrlUsers.LandingPage);
-/*
 router
-    .route('/hotels')
-    .get(ctrlHotels.hotelsGetAll);
+    .route('/signUpPage')
+    .get(ctrlUsers.SignupPage);
+router 
+    .route('/login')
+    .post(ctrlUsers.VerifyUser);
 
-router
-    .route('/hotels/:hotelId')
-    .get(ctrlHotels.hotelsGetOne);
-*/
+router 
+    .route('/signUpUnameExists')
+    .post(ctrlUsers.signUpUnameExists);
 router
     .route('/hotels/list')
     .get(ctrlHotels.listHotels);
@@ -39,40 +40,20 @@ router
     .route('/hotel/:hotelName/:roomType/delete')
     .delete(ctrlHotels.deleteHotelRoom);
 
-/*
-router
-    .route('/hotel/room/update')
-    .post(ctrlHotels.updateRoom);
-*/
 router
     .route('/hotel/room/new')
     .post(ctrlHotels.addHotelRoom);
 
-//to get reviews
-/*
 router
-    .route('/hotels/:hotelId/reviews')
-    .get(ctrlReviews.reviewsGetAll);
+    .route('/hotel/:hotelName')
+    .get(ctrlHotels.showRoomTypes);
 
 router
-    .route('/hotels/:hotelId/reviews/:reviewId')
-    .get(ctrlReviews.reviewsGetOne);
-    
-*/
-router
-    .route('/signUpPage')
-    .get(ctrlUsers.SignupPage);
-/*
-router
-    .route('/signUp')
-    .post(ctrlUsers.AddUser);
-*/
-router 
-    .route('/login')
-    .post(ctrlUsers.VerifyUser);
+    .route('/hotel/:hotelName/:roomType')
+    .post(ctrlBookings.checkAvailability);
 
-router 
-    .route('/signUpUnameExists')
-    .post(ctrlUsers.signUpUnameExists);
+router
+    .route('/hotel/:hotelName/:roomType/checkOut')
+    .post(ctrlBookings.checkOut);
 
 module.exports = router;

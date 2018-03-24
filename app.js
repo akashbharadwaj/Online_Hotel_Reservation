@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({extended : false}));
 //app.use(bodyParser.json());
 // Add some routing
 global.User_Admin = false;
+global.User_Name;
 console.log(User_Admin);
 app.use('/api',routes);
 // Listen for requests

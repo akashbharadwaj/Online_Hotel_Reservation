@@ -5,8 +5,15 @@ var userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-    userName : String,
-    password : String,
+    userName :{
+        type: String,
+        required : true,
+        unique : true
+    } ,
+    password :{
+        type: String,
+        required : true
+    },
     access : Number,
     wishList : [String],
     orderHistory : [String]
