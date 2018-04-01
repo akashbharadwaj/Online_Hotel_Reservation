@@ -9,7 +9,8 @@ var bcrypt = require('bcrypt');
 
 module.exports.LandingPage = function(req,res)
 {
-    res.render("landing");
+    //res.render("landing");
+    res.json();
 };
 
 
@@ -202,32 +203,38 @@ module.exports.VerifyUser = function(req,res){
                         User_Name = userName;
                     }
                     console.log("passwords matched");
-                    console.log("err "+err);
+                    //console.log("err "+err);
                     console.log(User_Admin);
-                    res.render("homepage");
+                    //res.render("homepage");
                     //render the home page
+                    res.json({msg: true, access: true});
                 }
             });
             bcrypt.compare(password, hash, function(err, res3) {
                 if(res3==false)
                 {
                     console.log("passwords dint match");
-                    res.render("loginerr");
+                    //res.render("loginerr");
+                    res.json({msg: false});
                     //post an error saying paaword or userName is wrong
                 }
             });
 
         }
         else{
-            //
-            res.render("loginerr");
+            
+            res.json({msg: false});
         }
         
     });
     
 };
 
+module.exports.returnUserName = function(req,res){
 
+    res.json({access: User_Admin});
+
+}
 
 
 

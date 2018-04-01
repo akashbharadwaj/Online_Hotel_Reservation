@@ -9,6 +9,9 @@ router
     .route('/')
     .get(ctrlUsers.LandingPage);
 router
+    .route('/userAccess')
+    .get(ctrlUsers.returnUserName);
+router
     .route('/signUpPage')
     .get(ctrlUsers.SignupPage);
 router 
