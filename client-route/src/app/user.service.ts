@@ -16,4 +16,12 @@ export class UserService {
     return this.http.get('http://localhost:3000/api/userAccess')
       .map(res => res.json());
   }
+
+  userSignUp(signUp) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/api/signUpUnameExists', signUp, {headers: headers})
+      .map(res => res.json());
+  }
+
 }

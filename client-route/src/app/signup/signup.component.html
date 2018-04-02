@@ -1,3 +1,24 @@
-<p>
-  signup works!
-</p>
+
+	
+		<div class = "loginSignContainer">
+    <h3>SignUp</h3>
+    <form (submit) = "signUp()">
+      <div class = "form-group">
+        <label>Name</label>
+        <input type = "text" [(ngModel)] = "fullName" class="form-control upassWidth" name= "fullName" id="fullName">
+      </div>
+      <div class = "form-group">
+        <label>Email</label>
+        <input type = "text" [(ngModel)] = "email" class="form-control upassWidth" name="email" id="email">
+      </div>
+      <div class = "form-group">
+        <label>Password</label>
+        <input type = "password" [(ngModel)] = "password" class="form-control upassWidth" name="password" id="password">
+      </div>
+      
+      <input type="submit" class="btn btn btn-success" name="SignUp" value="SignUp" id="signUp">
+    </form>
+    <p *ngIf = "emailError">Email must be of the format: 'abc@abc.com'</p>
+    <p *ngIf = "passwordError">Password must be atleast 8 characters long</p>
+    <p *ngIf = "error">Email already exists</p>
+    </div>

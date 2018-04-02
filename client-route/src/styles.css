@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.upassWidth{
+    width: 300px;
+}
+
+.loginSignContainer{
+    margin:0 auto;   
+}
+.search{
+    margin:0 auto;
+    width: 500px;
+}
+
+.searchWidth{
+    
+    width: 500px;
+}

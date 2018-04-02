@@ -1,3 +1,10 @@
-<input type="text" name="query" class = "size" placeholder="Enter City"/>
-<input type="submit" name="submit" />
-{{access}}
+<div class="search">
+  <form>
+    <div class = "form-group">
+      <input type = "text" [(ngModel)] = "query" class="form-control searchWidth" name= "query" placeholder="Enter City/Hotel">
+    </div>
+    
+    <input type="submit" class="btn btn btn-success" value="Search">
+   </form> 
+  
+</div>

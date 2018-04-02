@@ -27,9 +27,9 @@ module.exports.signUpUnameExists = function(req,res)
     //console.log(req);
     //var data = JSON.parse(req.body);
     
-    var userName = req.body.userName;
+    var userName = req.body.email;
     var password = req.body.password;
-    var name = req.body.name;
+    var name = req.body.fullName;
     bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(password, salt, function(err, hash) {
 
@@ -68,14 +68,14 @@ module.exports.signUpUnameExists = function(req,res)
                             console.log("success");
                            // res.render("homepage");
                             //res.send("sucess");
-                            res.json({"name" : "Aknhsdcj"});
+                            res.json({"msg" : true});
                         }
                         });
                         //User.save
                     }
                     else
                     {
-                        res.render("homepage");
+                        res.json({"msg" : false});
                     }
                 })
             // Store hash in your password DB.
