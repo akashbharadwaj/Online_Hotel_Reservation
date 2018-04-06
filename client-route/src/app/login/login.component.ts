@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService} from '../user.service';
 import { Router } from '@angular/router';
+
+
 // import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 // import { Globals } from '../globals';
 @Component({
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
   userName: String;
   password: String;
   message: true;
-  // access: false;
+  access = false;
   login() {
     // console.log(this.first_name);
     const login = {
@@ -25,6 +27,9 @@ export class LoginComponent implements OnInit {
     this.userService.userLogin(login)
       .subscribe(message => {
           if ( message.msg) {
+            this.userService.getAccess()
+              .subscribe( access =>
+                this.access = access.access);
             this.router.navigate(['/home']);
         } else {
           this.message = message;
@@ -33,6 +38,9 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userService.getAccess()
+      .subscribe( access =>
+        this.access = access.access);
   }
 
 }

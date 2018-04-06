@@ -4,7 +4,8 @@
 }
 
 .loginSignContainer{
-    margin:0 auto;   
+    margin:0 auto;  
+    width: 250px; 
 }
 .search{
     margin:0 auto;

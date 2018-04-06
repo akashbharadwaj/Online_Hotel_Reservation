@@ -35,10 +35,10 @@ module.exports.signUpUnameExists = function(req,res)
 
             if(err)
             {
-                console.log(err);
+                //console.log(err);
             }
             else
-                console.log(hash);
+                //console.log(hash);
                 password = hash;
                 var data = {
                     userName : userName,
@@ -176,7 +176,7 @@ module.exports.VerifyUser = function(req,res){
         if (err) return handleError(err);
         if(user.length!=0)
         {   
-            console.log(user);
+            //console.log(user);
 
             // Prints "Space Ghost is a talk show host".
             user.forEach((result)=>{
@@ -185,24 +185,24 @@ module.exports.VerifyUser = function(req,res){
                 //console.log(password + access);
             })
 
-            console.log(passwordDb);
-            console.log(access);
+            //console.log(passwordDb);
+            //console.log(access);
             //console.log(user.access);
             var hash = passwordDb;
-            console.log(hash);
+            //console.log(hash);
             bcrypt.compare(password, hash, function(err, res2) {
                 if(res2==true)
                 {   
-                    console.log("inside bcrypt");
+                    //console.log("inside bcrypt");
                     if(access==1)
                     {
                         User_Admin = true;
                     }
                     else
                     {
-                        User_Name = userName;
+                        User_Admin = false;
                     }
-                    console.log("passwords matched");
+                    //console.log("passwords matched");
                     //console.log("err "+err);
                     console.log(User_Admin);
                     //res.render("homepage");
@@ -213,7 +213,7 @@ module.exports.VerifyUser = function(req,res){
             bcrypt.compare(password, hash, function(err, res3) {
                 if(res3==false)
                 {
-                    console.log("passwords dint match");
+                    //console.log("passwords dint match");
                     //res.render("loginerr");
                     res.json({msg: false});
                     //post an error saying paaword or userName is wrong
@@ -233,7 +233,7 @@ module.exports.VerifyUser = function(req,res){
 module.exports.returnUserName = function(req,res){
 
     res.json({access: User_Admin});
-
+    
 }
 
 

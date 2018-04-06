@@ -1,0 +1,36 @@
+<div class = "loginSignContainer">
+      <h3>Add a Hotel</h3>
+      <form (submit) = "signUp()">
+        <div class = "form-group">
+          <label>Hotel</label>
+          <input type = "text" [(ngModel)] = "hotelName" class="form-control upassWidth" name= "hotelName">
+        </div>
+        <div class = "form-group">
+          <label>Location</label>
+          <input type = "text" [(ngModel)] = "location" class="form-control upassWidth" name="location">
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" id="description" name = "description" rows="5"></textarea>
+        </div>
+        <div class = "form-group">
+            <label>Services</label>
+            <input type = "text" [(ngModel)] = "services" class="form-control upassWidth" name="services">
+        </div>
+        <div class="form-group">
+            <label>File input</label>
+            <input type="file" class="form-control-file" aria-describedby="fileHelp" name="fileUpload" multiple ng2FileSelect [uploader]="uploader" >
+            <small id="fileHelp" class="form-text text-muted">Upload hotel photos</small>
+
+        </div>
+        <div class="form-group" *ngFor = "let item of uploader.queue">
+            <div class="form-group">{{item.file.name}}</div>
+            <div class="form-group">
+               <button type="button" class="btn btn-dark" (click) = "item.upload()">Upload</button>
+               <button type="button" class="btn btn-dark" (click) = "item.remove()">Cancel</button>
+            </div>
+        </div>
+        <div class="form-group" *ngIf = "uploader?.queue?.length">
+          <button type="button" class="btn btn-dark" name="newHotel" value="newHotel" (click)="uploader.uploadAll()">UploadAll</button>
+        </div>
+      </form>

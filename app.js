@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var routes = require('./api/routes');
 var bcrypt = require('bcrypt'); 
 var cors = require('cors');
+
+
 // Define the port to run on
 app.set('port', 3000);
 app.use(cors());

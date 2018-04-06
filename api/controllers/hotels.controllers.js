@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Hotel = mongoose.model('Hotel');
 var roomsModel = new Hotel;
+var multer = require('multer');
 /*
 module.exports.hotelsGetAll = function (req, res) {
     //
@@ -53,6 +54,17 @@ module.exports.hotelsGetOne = function (req, res) {
     };//
 */
 
+var store = multer.diskStorage({
+    destination: function(req,res,cb){
+        cb(null,'../uploads');
+    },
+    filename: function(req,res,cb){
+        cb(null,Date.now()+'.'+file.originalname);
+    }
+});
+
+var upload = multer({storage:store}).single('file');
+
 module.exports.listHotels = function (req, res) {
     //
 
@@ -88,12 +100,20 @@ module.exports.hotelsGetOne = function (req, res) {
 */
 module.exports.addHotel = function (req, res) {
     console.log("POST new hotel");
+    upload(req,res,function(err){
+        if(err) {
+            res.json({error:err});
+        }
+
+        res.json({originalname:req.file.originalname, uploadname:req.file.filename});
+    });
+
     var name = req.body.name;
     var location = req.body.location;
     var description = req.body.description;
     var services = req.body.services;
     var photos = req.body.photos;
-    var rooms = req.body.rooms;
+    //var rooms = req.body.rooms;
     var flagDeleted = false;
 
     var servicesFinArr = [];

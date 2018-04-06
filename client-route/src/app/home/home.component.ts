@@ -8,17 +8,14 @@ import { UserService} from '../user.service';
   providers: [UserService]
 })
 export class HomeComponent implements OnInit {
-
+  access = false;
   constructor(private userService: UserService) { }
     // console.log(this.userService.getValue());
-    access;
     // console.log(LoginComponent.access);
   ngOnInit() {
-    
     this.userService.getAccess()
       .subscribe( access =>
         this.access = access.access);
-        
   }
 
 }
