@@ -54,17 +54,6 @@ module.exports.hotelsGetOne = function (req, res) {
     };//
 */
 
-var store = multer.diskStorage({
-    destination: function(req,res,cb){
-        cb(null,'../uploads');
-    },
-    filename: function(req,res,cb){
-        cb(null,Date.now()+'.'+file.originalname);
-    }
-});
-
-var upload = multer({storage:store}).single('file');
-
 module.exports.listHotels = function (req, res) {
     //
 
@@ -100,15 +89,8 @@ module.exports.hotelsGetOne = function (req, res) {
 */
 module.exports.addHotel = function (req, res) {
     console.log("POST new hotel");
-    upload(req,res,function(err){
-        if(err) {
-            res.json({error:err});
-        }
-
-        res.json({originalname:req.file.originalname, uploadname:req.file.filename});
-    });
-
-    var name = req.body.name;
+    
+    var name = req.body.hotelName;
     var location = req.body.location;
     var description = req.body.description;
     var services = req.body.services;
@@ -122,14 +104,16 @@ module.exports.addHotel = function (req, res) {
         servicesFinArr.push(element);
         console.log(element);
     });
-
+    
     var photosFinArr = [];
-    var photosArr = services.split(",");
+    photosFinArr = photos;
+    /*
+    var photosArr = photos.split(",");
     photosArr.forEach(element => {
         photosFinArr.push(element);
         console.log(element);
     });
-
+    */
     var data = {
         name: name,
         location: location,
@@ -147,14 +131,14 @@ module.exports.addHotel = function (req, res) {
             console.log("error");
             console.log(err);
             //res.render("homepage");
-            res.json("error");
+            res.json({msg:true});
         }
         else
             console.log("Why");
-        console.log("success");
+            console.log("success");
         // res.render("homepage");
         //res.send("sucess");
-        res.json({ "name": "Aknhsdcj" });
+            res.json({msg: false});
     });
 };
 

@@ -16,7 +16,8 @@ var hotelSchema = new mongoose.Schema({
     
     name : {
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
    // name : String,
     location : String,

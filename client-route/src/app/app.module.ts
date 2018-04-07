@@ -10,7 +10,7 @@ import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { NewhotelComponent } from './newhotel/newhotel.component';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { ImageUploadModule } from 'angular2-image-upload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +26,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     FormsModule,
     HttpModule,
     FileUploadModule,
+    ImageUploadModule.forRoot(),
     ],
   providers: [],
   bootstrap: [AppComponent]
