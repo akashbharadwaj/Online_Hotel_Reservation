@@ -28,7 +28,9 @@ var hotelSchema = new mongoose.Schema({
     photos : [String],
     rooms : [
         {
-            roomType : String,
+            roomType :{
+                type: String,
+            },
             number : Number,
             description : String,
             photos : [String],

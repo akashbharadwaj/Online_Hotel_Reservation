@@ -10,11 +10,15 @@ import { UserService} from './user.service';
 export class AppComponent implements OnInit {
   title = 'app';
   access = false;
+  userName: String;
   constructor( private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getAccess()
-      .subscribe( access =>
-        this.access = access.access);
+      .subscribe( access => {
+        this.access = access.access;
+        this.userName = access.uName;
+      }
+        );
   }
 }

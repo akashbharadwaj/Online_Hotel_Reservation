@@ -16,8 +16,9 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
   userName: String;
   password: String;
-  message: true;
+  message1: true;
   access = false;
+  message: String;
   login() {
     // console.log(this.first_name);
     const login = {
@@ -27,12 +28,13 @@ export class LoginComponent implements OnInit {
     this.userService.userLogin(login)
       .subscribe(message => {
           if ( message.msg) {
+            this.message = this.userName;
             this.userService.getAccess()
               .subscribe( access =>
                 this.access = access.access);
             this.router.navigate(['/home']);
         } else {
-          this.message = message;
+          this.message1 = message;
         }
       });
   }

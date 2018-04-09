@@ -53,15 +53,15 @@ router
     .post(ctrlHotels.addHotelRoom);
 
 router
-    .route('/hotel/:hotelName')
+    .route('/hotel/:hotelID')
     .get(ctrlHotels.showRoomTypes);
 
 router
-    .route('/hotel/:hotelName/:roomType')
+    .route('/hotel/room/checkAvalability')
     .post(ctrlBookings.checkAvailability);
 
 router
-    .route('/hotel/:hotelName/:roomType/checkOut')
+    .route('/hotel/room/checkOut')
     .post(ctrlBookings.checkOut);
 
 module.exports = router;

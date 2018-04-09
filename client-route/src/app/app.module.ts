@@ -11,6 +11,13 @@ import { HomeComponent } from './home/home.component';
 import { NewhotelComponent } from './newhotel/newhotel.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { ImageUploadModule } from 'angular2-image-upload';
+import { NewRoomComponent } from './new-room/new-room.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+import { SanitizeHtmlPipe } from './sanitize-html.pipe';
+import { DisplayRoomsComponent } from './display-rooms/display-rooms.component';
+import { AvailabilityComponent } from './availability/availability.component';
+import { NgDatepickerModule} from 'ng2-datepicker';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +25,12 @@ import { ImageUploadModule } from 'angular2-image-upload';
     LoginComponent,
     SignupComponent,
     HomeComponent,
-    NewhotelComponent
+    NewhotelComponent,
+    NewRoomComponent,
+    SanitizeHtmlPipe,
+    DisplayRoomsComponent,
+    AvailabilityComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +39,8 @@ import { ImageUploadModule } from 'angular2-image-upload';
     HttpModule,
     FileUploadModule,
     ImageUploadModule.forRoot(),
+    NgxPaginationModule,
+    NgDatepickerModule
     ],
   providers: [],
   bootstrap: [AppComponent]

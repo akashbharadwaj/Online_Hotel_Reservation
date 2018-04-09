@@ -1,0 +1,34 @@
+
+  <br><br>
+  <div class="container" *ngIf="roomDetails">
+      <div class="row"  *ngFor="let rooms of roomDetails">
+          <div class = "col-md-8">
+            <ul>
+              <li>
+                  <a href="javascript:void(0);" (click)="onSelect(rooms)"><h2>{{rooms.roomType}}</h2></a>
+                  <img [src]="rooms.photos | SanitizeHtmlPipe" class="imageSize">
+                  <br>
+                  Price: {{rooms.price}}$
+                  <br> 
+                  
+                  <br>
+              </li>
+            </ul>
+          </div>   
+            <div class = "col-md-2" *ngIf="access">
+                <br><br>
+              <input type="button" (click)= "deleteHotels(hotels._id)" value ="Delete" class="btn btn-danger">
+            <br><br>
+            </div>
+    
+            <div class = "col-md-2" *ngIf="access">
+                <br><br>
+                <input type="button" (click)= "updateHotels(hotels._id)" value ="Update" class="btn btn-danger">
+              <br><br>
+            </div>
+            
+              
+      
+    </div>
+  </div>
+  

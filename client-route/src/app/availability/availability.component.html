@@ -1,0 +1,42 @@
+<br>
+
+<div class="alert alert-dismissible alert-success container" *ngIf = "messageCheckout">
+    <strong>Congratulations!</strong> You successfully Booked the hotel
+  </div>
+  <br><br>
+  <div class="container allignInput">
+      <h2>Check Availability</h2>
+      <br>
+      <form (submit) = "checkAvailability()">
+        
+        Start Date : 
+        <br><br>
+        <input class="allignInput" [(ngModel)] = "startDate" type="date" name="startDate">
+        <br><br>
+        End Date :  
+        <br><br>
+        <input class="allignInput" [(ngModel)] = "endDate" type="date" name="endDate">
+        <br><br>
+        <input type="submit" class="btn btn btn-success" value="Check">
+      </form>
+            
+      <br><br>
+      <div *ngIf = "message">
+        {{quant}} rooms are/is available  
+      <br><br>
+
+      <form (submit) = "checkout()" *ngIf = "quant>0">
+      Select the number of rooms: 
+      <br><br>
+      <input type="number" class="allignInput" [(ngModel)] ="quantity" name="quantity" min="0" max="{{quant}}">
+      <br><br>
+      Click Submit to confirm booking
+      <br><br>
+      <input type="submit" class="btn btn btn-success" value="Submit">
+      </form>
+      </div>
+  </div>
+  <br><br>
+  
+  
+  

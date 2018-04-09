@@ -63,8 +63,9 @@ module.exports.signUpUnameExists = function(req,res)
                             //res.render("homepage");
                         }
                         else
-                        {
-                            
+                        {   
+                            User_Name = userName;
+                            User_Admin = false;
                             console.log("success");
                            // res.render("homepage");
                             //res.send("sucess");
@@ -204,10 +205,11 @@ module.exports.VerifyUser = function(req,res){
                     }
                     //console.log("passwords matched");
                     //console.log("err "+err);
+                    User_Name = userName;
                     console.log(User_Admin);
                     //res.render("homepage");
                     //render the home page
-                    res.json({msg: true, access: true});
+                    res.json({msg: true, access: User_Admin});
                 }
             });
             bcrypt.compare(password, hash, function(err, res3) {
@@ -231,8 +233,13 @@ module.exports.VerifyUser = function(req,res){
 };
 
 module.exports.returnUserName = function(req,res){
-
-    res.json({access: User_Admin});
+    console.log(User_Name);
+    User.findOne({ 'userName': User_Name },function (err, user) {
+        console.log(user.name);
+        name = user.name;
+        res.json({access: User_Admin, uName: User_Name, Name: name});
+    });
+    
     
 }
 

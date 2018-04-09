@@ -9,10 +9,45 @@
 <div class="search">
     <form>
     <div class="input-group">
-      <input type="text" [(ngModel)] = "query" class="form-control searchWidth" name="query" placeholder="Enter City/Hotel">
+      <input type="text" [(ngModel)] = "searchKey" class="form-control searchWidth" name="searchKey" placeholder="Enter City/Hotel">
       <span class="input-group-btn">
-        <button class="btn btn btn-success" type="button">Go</button>
+        <button class="btn btn btn-success" type="button" (click)="retrieveHotels()">Go</button>
       </span>
     </div>
     </form>
+</div>
+<br><br>
+<div class="container" *ngIf="hotelList">
+    <div class="row"  *ngFor="let hotels of hotelList | paginate: { itemsPerPage: 5, currentPage: p }">
+        <div class = "col-md-8">
+          <ul>
+            <li>
+                <a href="javascript:void(0);" (click)="onSelect(hotels)"><h2>{{hotels.name}}</h2></a>
+                <img [src]="hotels.photos | SanitizeHtmlPipe" class="imageSize">
+                <br>
+                Location: {{hotels.location}}
+                <br>  
+                Services: {{hotels.services}}
+                <br> 
+                
+                <br>
+            </li>
+          </ul>
+        </div>   
+          <div class = "col-md-2" *ngIf="access">
+              <br><br>
+            <input type="button" (click)= "deleteHotels(hotels._id)" value ="Delete" class="btn btn-danger">
+          <br><br>
+          </div>
+  
+          <div class = "col-md-2" *ngIf="access">
+              <br><br>
+              <input type="button" (click)= "updateHotels(hotels._id)" value ="Update" class="btn btn-danger">
+            <br><br>
+          </div>
+          
+            
+    
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>

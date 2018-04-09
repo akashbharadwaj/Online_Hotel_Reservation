@@ -53,7 +53,31 @@ module.exports.hotelsGetOne = function (req, res) {
         });
     };//
 */
+module.exports.listHotels = function (req, res) {
+    //console.log("redirected to list hotels");
+    var searchTerm = req.query.name;
 
+    console.log("search key "+searchTerm);
+    Hotel.find({$or:[{'location': searchTerm }, {'name' : searchTerm}]} , function (err, hotelListings) {
+        console.log("inside");
+        if (err) {
+            console.log(error);
+        } //else {
+            //if(hoterlListings == null){
+                //checking if the search by location returned null?
+           // }
+           console.log(hotelListings);
+            res.json({List: hotelListings});
+        
+    });
+    
+};
+
+
+
+
+
+/*
 module.exports.listHotels = function (req, res) {
     //
 
@@ -68,6 +92,7 @@ module.exports.listHotels = function (req, res) {
 
         });
 };//
+*/
 /*
 module.exports.hotelsGetOne = function (req, res) {
 
@@ -281,7 +306,8 @@ module.exports.updateHotel = function (req, res) {
 module.exports.addHotelRoom = function (req, res) {
 
     console.log("Add rooms");
-    var name = req.body.name;
+    var name = req.body.hotelName;
+    console.log(name);
     var type = req.body.type;
     var number = req.body.number;
     var description = req.body.description;
@@ -303,6 +329,7 @@ module.exports.addHotelRoom = function (req, res) {
     Hotel.findOne({ 'name': name }, '_id', function (err, hotel) {
         if (err) {
             console.log("error" + err);
+            res.json({msg: true});
         }
         else {
             console.log(hotel);
@@ -320,6 +347,7 @@ module.exports.addHotelRoom = function (req, res) {
                         }
                         catch (e) {
                             console.log("Exception:" + e);
+                            res.json({msg: true});
                         }
                         var subdoc = roomsHotel.rooms;
                         // console.log(subdoc);
@@ -328,10 +356,11 @@ module.exports.addHotelRoom = function (req, res) {
                         roomsHotel.save(function (err) {
                             if (err) {
                                 console.log(err);
+                                res.json({msg: true});
                             }
 
                             console.log("success");
-
+                            res.json({msg: false});
 
                         });
 
@@ -445,14 +474,15 @@ module.exports.deleteHotelRoom = function (req, res) {
 }
 
 module.exports.showRoomTypes = function (req, res) {
-
-    var hotelName = req.params.hotelName;
-    Hotel.findOne({ 'name': hotelName }, function (err, hotel){
+    
+    var hotelId = req.query.id;
+    console.log("ID: "+hotelId);
+    Hotel.findOne({ '_id': hotelId }, function (err, hotel){
         if(err){
             console.log(err);
         }
         else
-            res.json("success");
+            res.json({rooms: hotel.rooms});
         //res.render("showRooms",{result: hotel.rooms});
 
     })

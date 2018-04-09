@@ -1,5 +1,6 @@
 
-<div class = "loginSignContainer">
+<div class = "loginSignContainer container">
+<h2>Login:</h2>
 <form (submit) = "login()">
   <div class = "form-group">
     <label>User Name</label>
@@ -14,5 +15,5 @@
   <input type="submit" class="btn btn btn-success" value="Login">
 </form>
 
-<p *ngIf = "message">UserName or Password is incorrect</p>
+<p *ngIf = "message1; else ">UserName or Password is incorrect</p>
 </div>

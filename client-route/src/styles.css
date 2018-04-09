@@ -34,3 +34,12 @@
     background-size: cover;
 
 }
+.imageSize{
+    height:300px;
+    width:400px;
+}
+
+.allignInput{
+    margin: auto;
+    width: 100%;
+}
