@@ -1,10 +1,11 @@
 
   <br><br>
   <div class="container" *ngIf="roomDetails">
-      <div class="row"  *ngFor="let rooms of roomDetails">
+      <div   *ngFor="let rooms of roomDetails">
+        <div class="row" *ngIf="!rooms.flagDeletedRooms">
           <div class = "col-md-8">
             <ul>
-              <li>
+              <li class="listHotels">
                   <a href="javascript:void(0);" (click)="onSelect(rooms)"><h2>{{rooms.roomType}}</h2></a>
                   <img [src]="rooms.photos | SanitizeHtmlPipe" class="imageSize">
                   <br>
@@ -17,18 +18,18 @@
           </div>   
             <div class = "col-md-2" *ngIf="access">
                 <br><br>
-              <input type="button" (click)= "deleteHotels(hotels._id)" value ="Delete" class="btn btn-danger">
+              <input type="button" (click)= "deleteRoom(rooms._id)" value ="Delete" class="btn btn-outline-danger">
             <br><br>
             </div>
     
             <div class = "col-md-2" *ngIf="access">
                 <br><br>
-                <input type="button" (click)= "updateHotels(hotels._id)" value ="Update" class="btn btn-danger">
+                <input type="button" (click)= "updateHotels(rooms._id)" value ="Update" class="btn btn-outline-danger">
               <br><br>
             </div>
             
               
-      
+      </div>
     </div>
   </div>
   

@@ -9,6 +9,9 @@ import { NewRoomComponent } from './new-room/new-room.component';
 import { DisplayRoomsComponent } from './display-rooms/display-rooms.component';
 import { AvailabilityComponent } from './availability/availability.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ListbookingsComponent } from './listbookings/listbookings.component';
+import { UpdatehotelComponent } from './updatehotel/updatehotel.component';
+import { UpdatehotelroomsComponent } from './updatehotelrooms/updatehotelrooms.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent},
@@ -19,7 +22,10 @@ const routes: Routes = [
   {path: 'displayRoom/:id', component: DisplayRoomsComponent},
   {path: 'userprofile', component: UserProfileComponent},
   {path: 'availability/:id', component: AvailabilityComponent},
-  {path: '', component: LandingPageComponent}
+  {path: 'listBookings', component: ListbookingsComponent},
+  {path: 'updateHotel/:id', component: UpdatehotelComponent},
+  {path: 'updateRooms/:id', component: UpdatehotelroomsComponent},
+  {path: '**', component: LandingPageComponent}
 
 ];
 

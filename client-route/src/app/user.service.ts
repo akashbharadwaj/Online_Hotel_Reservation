@@ -24,4 +24,13 @@ export class UserService {
       .map(res => res.json());
   }
 
+  retrieveBookings(userName) {
+    return this.http.get('http://localhost:3000/api/profile/bookings/' + userName, {params: {userName: userName}})
+      .map(res => res.json());
+  }
+
+  retrieveWishList(userName) {
+    return this.http.get('http://localhost:3000/api/profile/wishList/' + userName, {params: {userName: userName}})
+      .map(res => res.json());
+  }
 }

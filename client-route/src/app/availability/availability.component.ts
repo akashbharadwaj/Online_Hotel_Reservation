@@ -29,9 +29,10 @@ export class AvailabilityComponent implements OnInit {
     this.hotelID = id[0];
     this.roomID = id[1];
     */
+
   constructor(private route: ActivatedRoute, private hotelService: HotelService,
     private userService: UserService, private router: Router) {
-
+      console.log(this.userName);
     }
     checkAvailability() {
       console.log(this.startDate);
@@ -48,11 +49,6 @@ export class AvailabilityComponent implements OnInit {
               this.quant = message.num;
               this.message = true;
               console.log(this.message);
-              this.userService.getAccess()
-                .subscribe( access => {
-                  this.access = access.access;
-                  this.userName = access.uName;
-                });
               // this.router.navigate(['/home']);
           } else {
             // this.message1 = message;
@@ -81,6 +77,11 @@ export class AvailabilityComponent implements OnInit {
     const id = ids.split('_');
     this.hotelID = id[0];
     this.roomID = id[1];
+    this.userService.getAccess()
+                .subscribe( access => {
+                  this.access = access.access;
+                  this.userName = access.uName;
+                });
   }
 
 }

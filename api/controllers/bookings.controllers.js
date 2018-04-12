@@ -2,35 +2,51 @@ var mongoose = require('mongoose');
 var Booking = mongoose.model('Booking');
 var Hotel = mongoose.model('Hotel');
 var User = mongoose.model('User');
-
+var dateUtil = require('date-util');
 var startDate;
 var endDate;
 var availability;
 var hotelID;
 var roomID;
 var bookingId;
+var hotelName;
+var location;
+var roomType;
+var startDateDB;
+var endDateDB;
+var flagBookingCancelled = false;
 module.exports.checkAvailability = function (req, res) {
     console.log("Availability");
     startDate = req.body.startDate;
     endDate = req.body.endDate;
     hotelID = req.body.hotelID;
     roomID = req.body.roomID;
-    var startDateDB;
-    var endDateDB;
+    startDate = new Date(startDate);
+    endDate = new Date(endDate);
     var numberOfRooms;
     console.log("hotelID: "+ hotelID);
-    Hotel.findOne({ "_id": hotelID },function (err, hotel) {
-        //hotelId = hotel._id;
+    var today = new Date();
+    console.log(today);
 
+    today = new Date(today);
+
+    if(startDate > today && startDate<=endDate)
+    {
+
+        Hotel.findOne({ "_id": hotelID },function (err, hotel) {
+        //hotelId = hotel._id;
+        hotelName = hotel.name;
+        location = hotel.location;
         for (var i = 0; i < hotel.rooms.length; i++) {
            // console.log(hotel.rooms[i].roomType);
             if (hotel.rooms[i]._id == roomID) {
 
                 var j = i;
                 //roomId = hotel.rooms[j]._id;
+                roomType = hotel.rooms[j].roomType;
                 numberOfRooms = hotel.rooms[j].number;
                 console.log(numberOfRooms);
-                startDate = new Date(startDate);
+                
                 Booking.find({ "hotelId": hotelID, "roomId": roomID }, function (err, booking) {
                     console.log("booking inside");
                     booking.forEach(element => {
@@ -72,13 +88,18 @@ module.exports.checkAvailability = function (req, res) {
 
     });
     console.log("y not coming here2");
-    
+}
+else {
+    res.json({num: 0});
+}
 }
 
 module.exports.checkOut = function (req, res) {
 
     var numberOfRooms = req.body.quantity;
     var User_Name = req.body.userName;
+    
+    console.log("User ID: "+ User_Name) ;
     if (availability >= numberOfRooms) {
 
         var bookingData = {
@@ -88,6 +109,10 @@ module.exports.checkOut = function (req, res) {
             "numberOfRoomsBooked": numberOfRooms,
             "startDate": startDate,
             "endDate": endDate,
+            "hotelName": hotelName,
+            "location": location,
+            "roomType": roomType,
+            "flagBookingCancelled": flagBookingCancelled
         };
         var newBooking = new Booking(bookingData);
         newBooking.save(function (err, cb) {
@@ -105,11 +130,11 @@ module.exports.checkOut = function (req, res) {
 
                 bookingId = cb.bookingId;
                 console.log(bookingId);
-                
+                console.log(User_Name);
                 User.findOne({ 'userName': User_Name },function (err, user) {
-
+                    console.log(user);
                     try {
-                        user.orderHistory = bookingId;
+                        user.orderHistory.push(bookingId);
                     }
                     catch (e) {
                         console.log("Exception:" + e);
@@ -138,4 +163,36 @@ module.exports.checkOut = function (req, res) {
 }
 
 
+module.exports.listHotelBookings = function(req,res){
 
+    console.log("Booking history");
+    var searchTerm = req.query.name;
+    
+    console.log(searchTerm);
+    
+    Booking.find({$and : [{$or:[{'hotelName': searchTerm }, {'userId' : searchTerm}]},{'flagBookingCancelled': false}]}, function(err,book){
+        console.log(book);
+        res.json({booking: book});
+    });
+}
+
+
+module.exports.cancelBooking = function(req,res) {
+    console.log("inside cancel booking");
+    var bookingId = req.params.id;
+
+    Booking.findOne({'bookingId': bookingId},function(err,book){
+
+        if(err)
+        {
+            console.log(err);
+        }
+        else{
+            book.flagBookingCancelled = true;
+
+            book.save();
+            res.json({msg: true});
+        }
+
+    });
+}

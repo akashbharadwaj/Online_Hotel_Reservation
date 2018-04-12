@@ -19,9 +19,9 @@
 <br><br>
 <div class="container" *ngIf="hotelList">
     <div class="row"  *ngFor="let hotels of hotelList | paginate: { itemsPerPage: 5, currentPage: p }">
-        <div class = "col-md-8">
+        <div class = "col-md-6">
           <ul>
-            <li>
+            <li class="listHotels">
                 <a href="javascript:void(0);" (click)="onSelect(hotels)"><h2>{{hotels.name}}</h2></a>
                 <img [src]="hotels.photos | SanitizeHtmlPipe" class="imageSize">
                 <br>
@@ -33,16 +33,26 @@
                 <br>
             </li>
           </ul>
-        </div>   
+        </div>
+        <div class = "col-md-2">
+            <br><br>
+        <form (click) = "addToWishList(hotels.name)">
+                  
+            <input type="button" class="btn btn-outline-secondary" value="WishList">
+          </form>  
+          <br><br>
+        </div>
+        
+         
           <div class = "col-md-2" *ngIf="access">
               <br><br>
-            <input type="button" (click)= "deleteHotels(hotels._id)" value ="Delete" class="btn btn-danger">
+            <input type="button" (click)= "deleteHotel(hotels._id)" value ="Delete" class="btn btn-outline-danger">
           <br><br>
           </div>
   
           <div class = "col-md-2" *ngIf="access">
               <br><br>
-              <input type="button" (click)= "updateHotels(hotels._id)" value ="Update" class="btn btn-danger">
+              <input type="button" (click)= "updateHotels(hotels._id)" value ="Update" class="btn btn-outline-danger">
             <br><br>
           </div>
           

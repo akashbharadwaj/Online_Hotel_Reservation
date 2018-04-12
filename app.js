@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 var routes = require('./api/routes');
 var bcrypt = require('bcrypt'); 
 var cors = require('cors');
@@ -13,7 +14,12 @@ var multer = require('multer');
 app.set('port', 3000);
 app.use(cors());
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 
+require('./api/controllers/passport.controllers.js')(passport);
+
+//pass.pass;
 var upload = multer({ dest: 'uploads' })
 
 var uploadRoom = multer({ dest: 'uploadsRooms' })

@@ -41,11 +41,13 @@ var bookingSchema = new mongoose.Schema({
         type : String,
         required : true
     },
-
+    hotelName : String,
+    location: String,
+    roomType: String,
     numberOfRoomsBooked : Number,
     startDate : Date,
-    endDate : Date
-    
+    endDate : Date,
+    flagBookingCancelled: Boolean
     
 });
 bookingSchema.plugin(autoIncrement.plugin, {

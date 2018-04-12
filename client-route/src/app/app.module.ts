@@ -18,6 +18,10 @@ import { DisplayRoomsComponent } from './display-rooms/display-rooms.component';
 import { AvailabilityComponent } from './availability/availability.component';
 import { NgDatepickerModule} from 'ng2-datepicker';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ListbookingsComponent } from './listbookings/listbookings.component';
+import { UpdatehotelComponent } from './updatehotel/updatehotel.component';
+import { UpdatehotelroomsComponent } from './updatehotelrooms/updatehotelrooms.component';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +34,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     SanitizeHtmlPipe,
     DisplayRoomsComponent,
     AvailabilityComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ListbookingsComponent,
+    UpdatehotelComponent,
+    UpdatehotelroomsComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +47,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     FileUploadModule,
     ImageUploadModule.forRoot(),
     NgxPaginationModule,
-    NgDatepickerModule
+    NgDatepickerModule,
+    CommonModule
     ],
   providers: [],
   bootstrap: [AppComponent]

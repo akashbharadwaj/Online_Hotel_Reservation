@@ -43,3 +43,7 @@
     margin: auto;
     width: 100%;
 }
+
+.listHotels{
+    list-style-type: none;
+}

@@ -1,0 +1,29 @@
+<div class = "loginSignContainer">
+    <h3>Update a Room</h3>
+    <form (submit) = "updateRoom()">
+      <div class = "form-group">
+        <label>Room Type</label>
+        <input type = "text" [(ngModel)] = "roomType" class="form-control upassWidth" name="roomType">
+      </div>
+      <div class="form-group">
+          <label>Description</label>
+          <textarea class="form-control upassWidth" [(ngModel)] = "description" id="description" name = "description" rows="5"></textarea>
+      </div>
+      <div class = "form-group">
+          <label>Number of Units</label>
+          <input type = "text" [(ngModel)] = "number" class="form-control upassWidth" name="number">
+      </div>
+      <div class = "form-group">
+          <label>Price</label>
+          <input type = "text" [(ngModel)] = "price" class="form-control upassWidth" name="price">
+      </div>
+      <div>
+        <image-upload [url]="'http://localhost:3000/upload/room'" (uploadFinished)="onUploadFinished($event)"></image-upload>
+
+      </div>
+      <div class="form-group">
+          <input type="submit" class="btn btn btn-success" value="Update">
+      </div>
+    </form> 
+
+    <p *ngIf = "error">Adding a room was unsuccesful</p>

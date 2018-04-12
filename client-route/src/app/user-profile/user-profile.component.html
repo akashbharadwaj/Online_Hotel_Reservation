@@ -6,15 +6,55 @@
     <br><br>
     User Name: {{userName}}
     <br><br>
-    <form (submit) = "login()">
+    <form (submit) = "retrieveBookings()">
                   
       <input type="submit" class="btn btn btn-success" value="Order-History">
     </form>
+    <br>
+    <table class="table table-hover" *ngIf="flag">
+        <thead>
+          <tr>
+            <th scope="col">Hotel Name</th>
+            <th scope="col">Room Type</th>
+            <th scope="col">Location</th>
+            <th scope="col">Booking ID</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let bookings of bookingDetails">
+            <tr>
+              <td>{{bookings.hotelName}}</td>
+              <td>{{bookings.roomType}}</td>
+              <td>{{bookings.location}}</td>
+              <td>{{bookings.bookingId}}</td>
+              <td>{{bookings.startDate | slice:0:10}}</td>
+              <td>{{bookings.endDate | slice:0:10}}</td>
+            </tr>
+        </tbody>
+    </table>
+
     <br><br>
-    <form (submit) = "login()">
+    <form (submit) = "retrieveWishList()">
                   
         <input type="submit" class="btn btn btn-success" value="Wish-List">
     </form>
-    
+    <br>
+    <table class="table table-hover" *ngIf="flagWish">
+        <thead>
+          <tr>
+            <th scope="col">Hotel Name</th>
+            <th scope="col">Remove Hotel</th>
+            
+          </tr>
+        </thead>
+        <tbody *ngFor="let hotel of wishList">
+            <tr>
+              <td>{{hotel}}</td>
+              <td><input type="button" (click)= "removeHotel(hotel)" class="btn btn btn-outline-danger" value="Remove"></td>
+            </tr>
+        </tbody>
+    </table>
+
     <p *ngIf = "message1; else ">UserName or Password is incorrect</p>
     </div>

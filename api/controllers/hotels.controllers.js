@@ -58,7 +58,7 @@ module.exports.listHotels = function (req, res) {
     var searchTerm = req.query.name;
 
     console.log("search key "+searchTerm);
-    Hotel.find({$or:[{'location': searchTerm }, {'name' : searchTerm}]} , function (err, hotelListings) {
+    Hotel.find({$and : [{$or:[{'location': searchTerm }, {'name' : searchTerm}]},{'flagDeleted': false}]} , function (err, hotelListings) {
         console.log("inside");
         if (err) {
             console.log(error);
@@ -66,7 +66,7 @@ module.exports.listHotels = function (req, res) {
             //if(hoterlListings == null){
                 //checking if the search by location returned null?
            // }
-           console.log(hotelListings);
+           //console.log(hotelListings);
             res.json({List: hotelListings});
         
     });
@@ -169,48 +169,38 @@ module.exports.addHotel = function (req, res) {
 
 //delete a hotel
 module.exports.deleteHotel = function (req, res) {
-
-    var name = req.params.hotelName;
-    console.log(req.params.hotelName);
+    console.log("Delete hotel");
+    var id = req.params.hotelId;
+    console.log(req.params.hotelId);
     //var location = req.body.location;
-
-    Hotel.findOne({ 'name': name }, 'name', function (err, hotel) {
-
-        console.log(hotel.name);
-        if (hotel.name != null) {
-            //delete the hotel
-            hotel.remove(function (err) {
-
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    console.log("delete success");
-                    res.json("delete success");
-                }
-
-
-            });
+    Hotel.findOne({_id: id},function(err,result){
+        if(err)
+        {
+            res.json(err);
         }
-        else {
-            //send error message
-            res.json("Hotel does not exist");
+        else
+        {   
+            result.flagDeleted = true;
+            result.save();
+            res.json(result);
         }
     });
+    
 
 
 }
 
 module.exports.updateHotel = function (req, res) {
-
-    var oldName = req.params.hotelName;
-    var name = req.body.name;
+    console.log("Upadate hotel");
+    //var oldName = req.params.hotelName;
+    var name = req.body.hotelName;
     var location = req.body.location;
     var description = req.body.description;
     var services = req.body.services;
     var photos = req.body.photos;
+    var hotelId = req.body.hotelId;
     //var room = req.body.room;
-
+    console.log("HotelID: "+hotelId);
     var servicesArr = [];
     if (services != undefined) {
         servicesArr = services.split(",")
@@ -221,82 +211,35 @@ module.exports.updateHotel = function (req, res) {
         photosArr = photos.split(",");
     }
 
-    console.log(oldName + " " + name);
+    //console.log(oldName + " " + name);
     //var toUpdateData = [name,location,description];
 
-    Hotel.findOne({ 'name': oldName }, '_id', function (err, hotel) {
+    Hotel.findOne({ '_id': hotelId }, function (err, hotel) {
         if (err) {
             console.log("error" + err);
+            res.json({msg: false});
         }
         else {
-            console.log(hotel);
-            if (hotel._id != null) {
-                if (toUpdateData[0] != undefined) {
-                    //update name
-                    console.log(toUpdateData[0]);
-                    Hotel.findOne({ '_id': hotel._id }, function (err, doc) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        else {
-                            if (name != undefined) {
-                                doc.name = name;
-                            }
-                            if (location != undefined) {
-                                doc.location = location;
-                            }
-                            if (description != undefined) {
-                                doc.description = description;
-                            }
-                            if (servicesArr != undefined || servicesArr.length != 0) {
-                                doc.services = servicesArr;
-                            }
-                            if (photosArr != undefined || photosArr.length != 0) {
-                                doc.photos = photosArr;
-                            }
-
-                            doc.save();
-
-                        }
-                    });
-                }
-                /*
-                if (servicesFinArr!=undefined || servicesFinArr.length!=0)
-                {
-                    //update services
-                    //console.log(toUpdateData[3]);
-                    Hotel.updateOne({ '_id': hotel._id },{
-                        $set : {"services" : servicesFinArr}
+            console.log(hotel);                   
                                
-                    }).catch(function(err,affected,resp){
-    
-                        console.log(err);
-    
-                    });
-                    
-                }
-                if (photosFinArr!=undefined || photosFinArr.length!=0)
-                {
-                    //update services
-                    //console.log(toUpdateData[3]);
-                    Hotel.updateOne({ '_id': hotel._id },{
-                        $set : {"photos" : photosFinArr}
-                               
-                    }).catch(function(err,affected,resp){
-    
-                        console.log(err);
-    
-                    });
-                    
-                }
-                */
-                res.json("success");
+            if (name != undefined) {
+                hotel.name = name;
+            }
+            if (location != undefined) {
+                hotel.location = location;
+            }
+            if (description != undefined) {
+                hotel.description = description;
+            }
+            if (servicesArr != undefined || servicesArr.length != 0) {
+                hotel.services = servicesArr;
+            }
+            if (photosArr != undefined || photosArr.length != 0) {
+                hotel.photos = photosArr;
             }
 
-            else {
-                //send error message
-                res.json("Hotel does not exist");
-            }
+            hotel.save();
+            res.json({msg: true});
 
         }
     });
@@ -376,14 +319,16 @@ module.exports.addHotelRoom = function (req, res) {
 module.exports.updateHotelRoom = function (req, res) {
 
     console.log("Update rooms");
-    var name = req.params.hotelName;
-    var roomType = req.params.roomType;
-    var newRoomType = req.body.newRoomType;
+    var hotelId = req.body.hotelId;
+    console.log("Hotel ID: "+hotelId);
+    var roomId = req.body.roomId;
+    var roomType = req.body.roomType;
     var number = req.body.number;
     var description = req.body.description;
     var photos = req.body.photos;
     var price = req.body.price;
     var photosArr = [];
+    console.log("roomType: "+ roomType+" number: "+number+" description: "+ description+" price: "+price);
     if (photos != undefined) {
         //console.log(photos);
         photosArr = photos.split(",");
@@ -395,16 +340,19 @@ module.exports.updateHotelRoom = function (req, res) {
     //console.log(oldName+" "+name);
     //console.log(toUpdateData[0]+toUpdateData[1]+toUpdateData[2]+toUpdateData[3]+toUpdateData[4]);
 
-    Hotel.findOne({ 'name': name }, function (err, hotel) {
+    Hotel.findOne({ '_id': hotelId }, function (err, hotel) {
+        console.log(hotel);
         if (err) {
             console.log("error" + err);
+            res.json({msg: true});
         }
         else {
             console.log(hotel.rooms.length);
 
             for (var i = 0; i < hotel.rooms.length; i++) {
                 console.log(hotel.rooms[i].roomType);
-                if (hotel.rooms[i].roomType == roomType) {
+                if (hotel.rooms[i]._id == roomId) {
+                    console.log("Room Id: "+roomId);
                     //roomID = hotel.rooms[i]._id;
                     //console.log(roomID);
                     //console.log("i"+i);
@@ -412,21 +360,29 @@ module.exports.updateHotelRoom = function (req, res) {
                     //var doc = hotel.rooms.id(roomID);
                     //doc = doc.toObject();
                     //console.log(doc);
-                    if (newRoomType != undefined) {
-                        hotel.rooms[j].roomType = newRoomType;
+                    if (roomType != undefined) {
+                        console.log("roomtype");
+                        hotel.rooms[j].roomType = roomType;
                     }
                     if (number != undefined) {
+                        console.log("number");
                         hotel.rooms[j].number = number;
                     }
                     if (description != undefined) {
+                        console.log("description");
                         hotel.rooms[j].description = description;
                     }
                     if (price != undefined) {
+                        console.log("price");
                         hotel.rooms[j].price = price;
                     }
-                    if (photosArr.length > 0)
+                    if (photosArr.length > 0) {
+                        console.log("photos");
                         hotel.rooms[j].photos = photosArr;
+                    }
+                        
                     hotel.save();
+                    res.json({msg: true});
                 }
 
             }
@@ -436,12 +392,12 @@ module.exports.updateHotelRoom = function (req, res) {
 }
 
 module.exports.deleteHotelRoom = function (req, res) {
-
-
-
-    var name = req.params.hotelName;
-    var roomType = req.params.roomType;
-    Hotel.findOne({ 'name': name }, function (err, hotel) {
+    
+    var id = req.params.hotelId;
+    var roomId = req.params.roomId;
+    console.log("hotelid: "+id);
+    console.log("roomid: "+roomId);
+    Hotel.findOne({ '_id': id }, function (err, hotel) {
         if (err) {
             console.log("error" + err);
         }
@@ -449,23 +405,31 @@ module.exports.deleteHotelRoom = function (req, res) {
             console.log(hotel.rooms.length);
 
             for (var i = 0; i < hotel.rooms.length; i++) {
-                console.log(hotel.rooms[i].roomType);
-                if (hotel.rooms[i].roomType == roomType) {
+                //console.log(hotel.rooms[i].roomType);
+                if (hotel.rooms[i]._id == roomId) {
 
                     var j = i;
-
+                    
+                    hotel.rooms[j].flagDeletedRooms = true;
+                    hotel.save();
+                    console.log("delete success");
+                    res.json(hotel.rooms);
+                    /*
                     hotel.rooms[j].remove(function (err) {
 
                         if (err) {
                             console.log(err);
+                            res.json(err);
                         }
                         else {
+                            hotel.save();
                             console.log("delete success");
-                            res.json("delete success");
+                            res.json(hotel.rooms);
                         }
 
-                        hotel.save();
+                        
                     });
+                    */
 
                 }
             }
@@ -477,12 +441,13 @@ module.exports.showRoomTypes = function (req, res) {
     
     var hotelId = req.query.id;
     console.log("ID: "+hotelId);
-    Hotel.findOne({ '_id': hotelId }, function (err, hotel){
+    //{$and:[{'_id': hotelId }, {'rooms.flagDeletedRooms' : false}]}
+    Hotel.findOne({ '_id': hotelId }, function (err, room){
         if(err){
             console.log(err);
         }
         else
-            res.json({rooms: hotel.rooms});
+            res.json({rooms: room.rooms});
         //res.render("showRooms",{result: hotel.rooms});
 
     })

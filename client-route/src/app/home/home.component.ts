@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   access = false;
   searchKey: String;
   hotelList: HotelList[];
+  hotelAdd = false;
   constructor(private userService: UserService, private hotelService: HotelService, private router: Router) { }
     // console.log(this.userService.getValue());
     // console.log(LoginComponent.access)
@@ -49,11 +50,41 @@ export class HomeComponent implements OnInit {
       });
 
   }
+  addToWishList(hotelName1) {
+    const hotels = {
+      hotelName: hotelName1,
+      };
+    console.log(hotelName1);
+    this.hotelService.addToWishListUser(hotels)
+    .subscribe(message => {
+      // console.log(message.List.length);
+        this.hotelAdd = message.hotelAdd;
+    });
+  }
+  deleteHotel(id) {
+    console.log(id);
+    const hotelList = this.hotelList;
+    this.hotelService.deleteHotels(id)
+      .subscribe(data => {
+        console.log('Data' + data.n);
+            for (let i = 0; i < hotelList.length; i++) {
+              if (hotelList[i]._id === id) {
+                hotelList.splice(i, 1);
+              }
+            }
+      });
+  }
   onSelect(hotels) {
     console.log('inside select');
     console.log(hotels._id);
 
     this.router.navigate(['/displayRoom', hotels._id]);
+  }
+
+  updateHotels(id) {
+    console.log('inside update');
+    console.log(id);
+    this.router.navigate(['/updateHotel', id]);
   }
   ngOnInit() {
     this.userService.getAccess()

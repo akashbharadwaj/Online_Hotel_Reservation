@@ -1,11 +1,19 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var bcrypt = require('bcrypt');
+var Booking = mongoose.model('Booking');
+var Hotel = mongoose.model('Hotel');
+var wishList = mongoose.model('wishList');
+var passport = require('passport');
+var jwt = require('jsonwebtoken');
+var JwtStrategy = require('passport-jwt').Strategy;
+var ExtractJwt = require('passport-jwt').ExtractJwt;
 //var express = require('express');
 //var app = express();
 
 //app.set("view engine","ejs");
 //var bodyparser = require('body-parser');
+
 
 module.exports.LandingPage = function(req,res)
 {
@@ -173,27 +181,37 @@ module.exports.VerifyUser = function(req,res){
     //hash = "$2a$10$rx3k2p7va6ULW3AROSECn.3SwF1TieKdN3ubYiT6TCdNRt7vKN.E6";
     //password = "akash123";
     
-    User.find({ 'userName': userName }, function (err, user) {
+    User.findOne({ 'userName': userName }, function (err, user) {
         if (err) return handleError(err);
         if(user.length!=0)
         {   
             //console.log(user);
 
             // Prints "Space Ghost is a talk show host".
+            /*
             user.forEach((result)=>{
                 passwordDb = result.password;
                 access = result.access;
                 //console.log(password + access);
             })
-
+            */
             //console.log(passwordDb);
             //console.log(access);
             //console.log(user.access);
+            var passwordDb = user.password;
+            var access = user.access;
             var hash = passwordDb;
             //console.log(hash);
             bcrypt.compare(password, hash, function(err, res2) {
                 if(res2==true)
-                {   
+                {      
+                    /*
+                    const token = jwt.sign(user,'yourSecret', {
+
+                        expiresIn: 604800 //1week
+
+                    });
+                      */                
                     //console.log("inside bcrypt");
                     if(access==1)
                     {
@@ -209,6 +227,17 @@ module.exports.VerifyUser = function(req,res){
                     console.log(User_Admin);
                     //res.render("homepage");
                     //render the home page
+                    /*
+                    res.json({
+                        msg: true,
+                        token: 'JWT '+token,
+                        user:{
+                            id: user._id,
+                            name: user.name,
+                            userName: user.userName
+                        }
+                    })  
+                    */
                     res.json({msg: true, access: User_Admin});
                 }
             });
@@ -234,18 +263,117 @@ module.exports.VerifyUser = function(req,res){
 
 module.exports.returnUserName = function(req,res){
     console.log(User_Name);
-    User.findOne({ 'userName': User_Name },function (err, user) {
-        console.log(user.name);
-        name = user.name;
-        res.json({access: User_Admin, uName: User_Name, Name: name});
-    });
+    if(User_Name!="")
+    {
+        User.findOne({ 'userName': User_Name },function (err, user) {
+            //console.log(user.name);
+            name = user.name;
+            res.json({access: User_Admin, uName: User_Name, Name: name});
+        });
+    }
+    
     
     
 }
 
+module.exports.retrieveOrderHistory = function (req, res) {
+    console.log("Booking history");
+    var userName = req.query.userName;
+    /*
+    var hotelId;
+    var roomId;
+    var startDate;
+    var endDate;
+    var hotelName;
+    var roomType;
+    var location;
+    var bookingDetails = [];
+    */
+    console.log(userName);
+    Booking.find({'userId': userName}, function(err,book){
+        if(book){
+            console.log(book);
+            res.json({bookings: book});
+        }
+        
+    });
+    /*
+    User.findOne({ 'userName': userName }, function (err, user){
+        if(err){
+            console.log(err);
+        }
+        else
+            for (var i = 0; i < user.orderHistory.length; i++) {
+                console.log("inside loop");
+                
+                var l = i;
+                console.log(user.orderHistory[l]);
+                console.log(l);
+                Booking.findOne({'bookingId': user.orderHistory[l]}, function(err,book){
+                    hotelId = book.hotelId;
+                    roomId = book.roomId;
+                    startDate = book.startDate;
+                    endDate = book.endDate;
+                    //location = book.location;
+                    console.log("hotelID: "+hotelId);
+                    Hotel.findOne({'_id': hotelId},function(err, hotel){
+                        console.log("hotel"+hotel);
+                        if(hotel != undefined){
+                        hotelName = hotel.name;
+                        location = hotel.location;
+                        for (var j = 0; j < hotel.rooms.length; j++) {
+                            //console.log(hotel.rooms[j].roomType);
+                            if (hotel.rooms[j]._id == roomId) {
+                                var k = j;
+                                roomType = hotel.rooms[k].roomType;
 
+                                bookingDetails[l] = {
+                                    HotelName: hotelName,
+                                    RoomType: roomType,
+                                    Location: location,
+                                    StartDate: startDate,
+                                    EndDate: endDate
+                                };
+                                console.log("inside book 2");
+                                console.log(bookingDetails);
+                                res.json({booking: bookingDetails});
+                            }   
+                        }
+                    }
+                    })
+                    
+                })
 
+                if(i==user.orderHistory.length-1)
+                {   
+                    
+                    
+                    console.log("inside book 1");
+                }
 
+            }
+            
+            
+        //res.render("showRooms",{result: hotel.rooms});
+
+    })
+    */
+    //console.log("inside book 3");
+}
+
+module.exports.retrieveWishList = function(req,res){
+
+    console.log("Wish List history");
+    var userName = req.query.userName;
+
+    console.log(userName);
+    wishList.findOne({'userId': userName}, function(err,wish){
+        if(wish){
+            console.log(wish);
+            res.json({wishlist: wish.hotelName});
+        }
+    });
+}
 
 
 
@@ -306,3 +434,129 @@ module.exports.reviewsGetOne = function(req, res){
 //5a7545704923fc87abf4bf47
 
 };*/
+
+
+module.exports.addToWishList = function (req, res) {
+    console.log("insdei wiahlist");
+    var hotelName = req.body.hotelName;
+    var userName = User_Name;
+    var flag = false;
+    var wishListData = {
+        "userId": userName,
+        "hotelName":hotelName
+    };
+    wishList.findOne({ 'userId': userName },function (err, wish) {
+        
+        if(wish!=null)
+        {   
+            var myarr = wish.hotelName;
+            var arrayContainsHotelName = (myarr.indexOf(hotelName) > -1);
+            if(!arrayContainsHotelName)
+            {
+                var wishlist = new wishList(wishListData);
+                    wishlist.save(function (err, cb) {
+                    if (err) {
+                        console.log("error");
+                        console.log(err);
+                        //res.render("homepage");
+                        res.json("error");
+                    }
+                    else {
+                               
+                        res.json({hotelAdd: true});
+                    }
+                    });
+            }
+        }
+        else
+        {
+            var wishlist = new wishList(wishListData);
+            wishlist.save(function (err, cb) {
+            if (err) {
+                console.log("error");
+                console.log(err);
+                //res.render("homepage");
+                res.json("error");
+            }
+            else {
+                               
+                res.json({hotelAdd: true});
+            }
+        });
+        }
+    });
+
+    /*
+    var numberOfRooms = req.body.quantity;
+    var User_Name = req.body.userName;
+    //var dateString='Mon Jan 12 00:00:00 GMT 2015';
+    /*
+    startDate = startDate.toUTCString();
+    var startDate1 = startDate.split(' ');
+    startDate = startDate1[0];
+    endDate = endDate.toUTCString();
+    var endDate1 = endDate.split(' ');
+    endDate = endDate1[0];
+    
+    //console.log(dateString);    
+    if (availability >= numberOfRooms) {
+
+        var bookingData = {
+            "hotelId": hotelID,
+            "roomId": roomID,
+            "userId": User_Name,
+            "numberOfRoomsBooked": numberOfRooms,
+            "startDate": startDate,
+            "endDate": endDate,
+            "hotelName": hotelName,
+            "location": location,
+            "roomType": roomType,
+        };
+        var newBooking = new Booking(bookingData);
+        newBooking.save(function (err, cb) {
+            if (err) {
+                console.log("error");
+                console.log(err);
+                //res.render("homepage");
+                res.json("error");
+            }
+            else {
+                console.log("Why");
+                console.log("success");
+                // res.render("homepage");
+                //res.send("sucess");
+
+                bookingId = cb.bookingId;
+                console.log(bookingId);
+                console.log(User_Name);
+                User.findOne({ 'userName': User_Name },function (err, user) {
+                    console.log(user);
+                    try {
+                        user.orderHistory.push(bookingId);
+                    }
+                    catch (e) {
+                        console.log("Exception:" + e);
+                        res.json({msg: true});
+                    }
+                    
+                    user.save(function (err) {
+                        if (err) {
+                            console.log(err);
+                            res.json({msg: true});
+                        }
+
+                        console.log("success");
+                        //res.json({msg: false});
+
+                    });
+                });
+                
+                res.json({checkout: true});
+            }
+        });
+    }
+    else {
+        //send a message saying selected number is greater than available
+    }
+    */
+}
