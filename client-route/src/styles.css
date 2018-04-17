@@ -49,5 +49,35 @@
 }
 
 .logout {
-    
+    clear: both;
+    float: right;
+}
+
+.searchOnTopCarousel {
+    position:absolute;
+    z-index:9999999;
+    top:300px; /* change to whatever you want */
+    left:500px; /* change to whatever you want */
+    right:auto; /* change to whatever you want */
+    bottom:auto; /* change to whatever you want */
+}
+
+.navOnTopCarousel{
+    position:absolute;
+    z-index:9999999;
+    top:100px; /* change to whatever you want */
+    left:100px; /* change to whatever you want */
+    right:auto; /* change to whatever you want */
+    bottom:auto;
+    width: 80%; /* change to whatever you want */
+}
+
+.searchErrorOnTopCarousel {
+    position:absolute;
+    z-index:9999999;
+    top:350px; /* change to whatever you want */
+    left:500px; /* change to whatever you want */
+    right:auto; /* change to whatever you want */
+    bottom:auto; /* change to whatever you want */
+    color: black
 }

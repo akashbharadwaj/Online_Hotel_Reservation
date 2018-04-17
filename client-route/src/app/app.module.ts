@@ -23,6 +23,9 @@ import { UpdatehotelComponent } from './updatehotel/updatehotel.component';
 import { UpdatehotelroomsComponent } from './updatehotelrooms/updatehotelrooms.component';
 import { CommonModule } from '@angular/common';
 import { LogoutComponent } from './logout/logout.component';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { SmoothScrollToDirective, SmoothScrollDirective } from 'ng2-Smooth-Scroll';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +42,8 @@ import { LogoutComponent } from './logout/logout.component';
     ListbookingsComponent,
     UpdatehotelComponent,
     UpdatehotelroomsComponent,
-    LogoutComponent
+    LogoutComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,8 @@ import { LogoutComponent } from './logout/logout.component';
     ImageUploadModule.forRoot(),
     NgxPaginationModule,
     NgDatepickerModule,
-    CommonModule
+    CommonModule,
+    ScrollToModule.forRoot(),
     ],
   providers: [],
   bootstrap: [AppComponent]

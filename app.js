@@ -9,11 +9,19 @@ var routes = require('./api/routes');
 var bcrypt = require('bcrypt'); 
 var cors = require('cors');
 var multer = require('multer');
-
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 // Define the port to run on
 app.set('port', 3000);
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(session({
+  secret: 'this is the secret',
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 

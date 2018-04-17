@@ -1,14 +1,21 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var router = express.Router();
 var multer = require('multer');
-
+var User = mongoose.model('User');
 var passport = require('passport');
 var local = require('passport-local');
 var ctrlHotels = require('../controllers/hotels.controllers.js');
 var ctrlUsers = require('../controllers/users.controllers.js');
 var ctrlBookings = require('../controllers/bookings.controllers.js');
 var ctrlWishlist = require('../controllers/wishlist.controllers.js');
+/*
+var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy(localStrategy));
+passport.serializeUser(serializeUser);
+passport.deserializeUser(deserializeUser);
 
+*/
 
 //Home Page
 router 
@@ -97,10 +104,36 @@ router
 router
     .route('/orders/:id')
     .delete(ctrlBookings.cancelBooking);
+/*
+router.post('/users/login', passport.authenticate('local'), login);
 
+function localStrategy(username,password, done ){
+    User
+        .findUserByCredentials(username,password)
+        .then(function(user){
+            if(user)
+            {
+                done(null, user)
+            } else {
+                done(null, false)
+            }
+        }, function(error){
+            done(error, false)
+        }
+    )
+}
+
+function login(req, res) {
+    res.json(req.user);
+}
+
+
+
+
+/*
 router
     .route('/users/login')
-    .post(passport.authenticate('local', {successRedirect:'/', failureRedirect:''}),ctrlUsers.login);
+    .post(passport.authenticate('local'),ctrlUsers.login);
 
 /*
 passport.use(new LocalStrategy(
@@ -125,4 +158,26 @@ router.post('/login',
       
     });
 */
+/*
+function serializeUser(user, done) {
+    done(null, user.id);
+  };
+  
+function deserializeUser(user, done) {
+    User.findById(user._id)
+        .then(
+            function(user){
+                done(null,user);
+            },
+            function(err){
+                done(err,null);
+            }
+        )
+      done(err, user);
+    });
+  };
+
+*/
+
+
 module.exports = router;

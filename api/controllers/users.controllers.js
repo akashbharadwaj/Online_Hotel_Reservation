@@ -245,7 +245,23 @@ module.exports.VerifyUser = function(req,res){
                         }
                     })  
                     */
-                    res.json({msg: true, access: User_Admin});
+                   /*
+                const token = jwt.sign(userinfo, 'yourSecret',{
+                expiresIn: 60488
+                });
+                console.log("tokem created "+ token);
+                res.json({ 
+                    msg: true, 
+                    token : token,
+                    user : {
+                        id: user._id,
+                        userName : user.userName,
+                        access: User_Admin,
+                        name: user.name
+                    }
+                });
+                */
+                res.json({msg: true, access: User_Admin});
                 }
             });
             bcrypt.compare(password, hash, function(err, res3) {
@@ -311,25 +327,6 @@ module.exports.retrieveWishList = function(req,res){
         }
     });
 }
-
-
-module.exports.login = function(req, res) {
-    
-    res.json();
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -509,4 +506,10 @@ module.exports.logout = function (req, res) {
     User_Admin = false;
     User_Name = "";
     name = "";
+}
+
+module.exports.login = function(req, res) {
+    
+    res.json();
+
 }
