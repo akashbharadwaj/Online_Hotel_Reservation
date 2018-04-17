@@ -23,6 +23,8 @@ export class AvailabilityComponent implements OnInit {
   userName: String;
   quantity: Number;
   messageCheckout = false;
+  roomType: String;
+  wrongQuant = false;
   /*
   const ids = this.route.snapshot.params['id'];
     const id = ids.split('_');
@@ -56,6 +58,10 @@ export class AvailabilityComponent implements OnInit {
         });
     }
     checkout() {
+      if (!(this.quantity > 0 && this.quantity <= this.quant)) {
+        this.wrongQuant = true;
+      } else {
+        this.wrongQuant = false;
       const check = {
         quantity: this.quantity,
         userName: this.userName,
@@ -69,6 +75,7 @@ export class AvailabilityComponent implements OnInit {
             // this.message1 = message;
           }
         });
+      }
     }
   ngOnInit() {
     // this.hotelService.retrieveHotelRooms(hotels)
@@ -77,6 +84,7 @@ export class AvailabilityComponent implements OnInit {
     const id = ids.split('_');
     this.hotelID = id[0];
     this.roomID = id[1];
+    this.roomType = id[2];
     this.userService.getAccess()
                 .subscribe( access => {
                   this.access = access.access;

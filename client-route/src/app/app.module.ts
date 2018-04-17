@@ -22,6 +22,7 @@ import { ListbookingsComponent } from './listbookings/listbookings.component';
 import { UpdatehotelComponent } from './updatehotel/updatehotel.component';
 import { UpdatehotelroomsComponent } from './updatehotelrooms/updatehotelrooms.component';
 import { CommonModule } from '@angular/common';
+import { LogoutComponent } from './logout/logout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +38,8 @@ import { CommonModule } from '@angular/common';
     UserProfileComponent,
     ListbookingsComponent,
     UpdatehotelComponent,
-    UpdatehotelroomsComponent
+    UpdatehotelroomsComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,

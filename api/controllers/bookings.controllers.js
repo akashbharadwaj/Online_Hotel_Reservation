@@ -47,7 +47,7 @@ module.exports.checkAvailability = function (req, res) {
                 numberOfRooms = hotel.rooms[j].number;
                 console.log(numberOfRooms);
                 
-                Booking.find({ "hotelId": hotelID, "roomId": roomID }, function (err, booking) {
+                Booking.find({ "hotelId": hotelID, "roomId": roomID, "flagBookingCancelled": false }, function (err, booking) {
                     console.log("booking inside");
                     booking.forEach(element => {
                         //console.log("db:"+element.startDate);
@@ -195,4 +195,20 @@ module.exports.cancelBooking = function(req,res) {
         }
 
     });
+}
+
+
+module.exports.retrieveOrderHistory = function (req, res) {
+    console.log("Booking history");
+    var userName = req.query.userName;
+    
+    console.log(userName);
+    Booking.find({'userId': userName}, function(err,book){
+        if(book){
+            console.log(book);
+            res.json({bookings: book});
+        }
+        
+    });
+    
 }

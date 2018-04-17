@@ -145,6 +145,7 @@ module.exports.addToWishList = function (req, res) {
 module.exports.removeFromWishList = function(req,res) {
 
     var userHotelName = req.params.hotelName;
+    
     wishList.findOne({'userId': User_Name},function(err,wish){
         if(err)
         {
@@ -159,6 +160,20 @@ module.exports.removeFromWishList = function(req,res) {
             //result.hotelName = true;
             wish.save();
             res.json(wish);
+        }
+    });
+}
+
+module.exports.retrieveWishList = function(req,res){
+
+    console.log("Wish List history");
+    var userName = req.query.userName;
+
+    console.log(userName);
+    wishList.findOne({'userId': userName}, function(err,wish){
+        if(wish){
+            console.log(wish);
+            res.json({wishlist: wish.hotelName});
         }
     });
 }

@@ -3,9 +3,12 @@
 <div class="alert alert-dismissible alert-success container" *ngIf = "messageCheckout">
     <strong>Congratulations!</strong> You successfully Booked the hotel
   </div>
+  <div class="alert alert-dismissible alert-danger container" *ngIf = "wrongQuant">
+    <strong>Enter a positive number less than {{quant}}</strong>
+  </div>
   <br><br>
   <div class="container allignInput">
-      <h2>Check Availability</h2>
+      <h2>Check Availability of {{ roomType}}</h2>
       <br>
       <form (submit) = "checkAvailability()">
         
@@ -22,7 +25,7 @@
             
       <br><br>
       <div *ngIf = "message">
-        {{quant}} rooms are/is available  
+        {{quant }} rooms are/is available  
       <br><br>
 
       <form (submit) = "checkout()" *ngIf = "quant>0">

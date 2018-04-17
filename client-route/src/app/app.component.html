@@ -1,38 +1,113 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/home">AA</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-        
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/signUp">SignUp</a>
-        </li>
-        <li class="nav-item" *ngIf = "userName">
-            <a href="/userprofile" class="nav-link"><span class="glyphicon glyphicon-user"></span>Profile</a>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf = "access">
+
+    
+    <a class="navbar-brand" href="/home" title="Home"><div style="font-size:1.5em; color:rgba(71, 203, 255, 0.336)"><i class="fab fa-accusoft"></i></div></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+          
+          <li class="nav-item" *ngIf = "!userName">
+            <a class="nav-link" href="/login" title = "Login"><div style="font-size:1.3em; color:rgb(71, 181, 255)"><i class="fas fa-sign-in-alt"></i></div></a>
           </li>
-        <li class="nav-item" *ngIf = "access">
+          <li class="nav-item" *ngIf = "!userName"> 
+            <a class="nav-link" href="/signUp" title = "Signup"><div style="font-size:1.3em; color:rgb(71, 181, 255)"><i class="fas fa-user-plus"></i></div></a>
+          </li>
+          <li class="nav-item" *ngIf = "userName">
+              <a href="/userprofile" class="nav-link" title = "Profile"><div style="font-size:1.2em; color:rgb(71, 181, 255)"><i class="fas fa-user"></i></div></a>
+        </li>
+                <li class="nav-item">
             <a class="nav-link" href="/newHotel">New-Hotel</a>
         </li>
 
-        <li class="nav-item" *ngIf = "access">
+        <li class="nav-item">
             <a class="nav-link" href="/newRoom">New-Room</a>
         </li>
-        <li class="nav-item" *ngIf = "access">
+        <li class="nav-item">
             <a class="nav-link" href="/listBookings">Bookings</a>
         </li>
-        
-
-      </ul>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
       
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+      
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/listBookings"></a>
+        </li>
+        
+          <div>
+            <a class="nav-link badge-pill badge-primary" style="text-align: center">ADMIN-PROFILE</a>
+          </div>
+          <li class="nav-item logout" *ngIf = "userName" (click) = "logout()" title="Logout">
+            <a href="/home" class="nav-link my-2 my-sm-0"><div style="font-size:1.2em; color:rgb(71, 181, 255)"><i class="fas fa-sign-out-alt"></i></div></a>
+      </li>
+        </ul>
+        
     </div>
+    
+  
   </nav>
-
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" *ngIf = "!access">
+      
+      <a class="navbar-brand" href="/home" title="Home"><div style="font-size:1.5em; color:rgba(71, 203, 255, 0.336)"><i class="fab fa-accusoft"></i></div></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+          
+          <li class="nav-item" *ngIf = "!userName">
+            <a class="nav-link" href="/login" title = "Login"><div style="font-size:1.3em; color:rgb(71, 181, 255)"><i class="fas fa-sign-in-alt"></i></div></a>
+          </li>
+          <li class="nav-item" *ngIf = "!userName"> 
+            <a class="nav-link" href="/signUp" title = "Signup"><div style="font-size:1.3em; color:rgb(71, 181, 255)"><i class="fas fa-user-plus"></i></div></a>
+          </li>
+          <li class="nav-item" *ngIf = "userName">
+              <a href="/userprofile" class="nav-link" title = "Profile"><div style="font-size:1.2em; color:rgb(71, 181, 255)"><i class="fas fa-user"></i></div></a>
+        </li>
+        <li class="nav-item logout" *ngIf = "userName" (click) = "logout()" title="Logout">
+            <a href="/home" class="nav-link my-2 my-sm-0"><div style="font-size:1.2em; color:rgb(71, 181, 255)"><i class="fas fa-sign-out-alt"></i></div></a>
+      </li>
+      </ul>
+      </div>
+  </nav>
 <router-outlet></router-outlet>

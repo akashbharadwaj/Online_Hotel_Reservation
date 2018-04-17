@@ -21,7 +21,7 @@ export class DisplayRoomsComponent implements OnInit {
     console.log('inside select');
     console.log(rooms._id);
 
-    this.router.navigate(['/availability', this.hotelId + '_' + rooms._id]);
+    this.router.navigate(['/availability', this.hotelId + '_' + rooms._id + '_' + rooms.roomType]);
   }
   deleteRoom(rooms) {
     const ids = this.hotelId + '_' + rooms;

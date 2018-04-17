@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 
+var passport = require('passport');
+var local = require('passport-local');
 var ctrlHotels = require('../controllers/hotels.controllers.js');
 var ctrlUsers = require('../controllers/users.controllers.js');
 var ctrlBookings = require('../controllers/bookings.controllers.js');
@@ -12,82 +14,115 @@ var ctrlWishlist = require('../controllers/wishlist.controllers.js');
 router 
     .route('/')
     .get(ctrlUsers.LandingPage);
-
-router
-    .route('/signUpPage')
-    .get(ctrlUsers.SignupPage);
+//np
 router 
-    .route('/login')
+    .route('/Users')
     .post(ctrlUsers.VerifyUser);
-
+//np
 router
-    .route('/userAccess')
+    .route('/Users')
     .get(ctrlUsers.returnUserName);
+//np
+router 
+    .route('/Users/signUp')
+    .post(ctrlUsers.signUpUnameExists);
 
 router 
-    .route('/signUpUnameExists')
-    .post(ctrlUsers.signUpUnameExists);
-router
-    .route('/hotels/list')
-    .get(ctrlHotels.listHotels);
+    .route('/Users/logout')
+    .get(ctrlUsers.logout);
 
+//np
 router
-    .route('/hotel/new')
+    .route('/hotels')
+    .get(ctrlHotels.listHotels);
+//np
+router
+    .route('/hotels')
     .post(ctrlHotels.addHotel);
-    
+//np  
 router
-    .route('/hotel/delete/:hotelId')
+    .route('/hotels/:hotelId')
     .delete(ctrlHotels.deleteHotel);
 
 router
-    .route('/hotel/update')
+    .route('/hotels')
     .put(ctrlHotels.updateHotel);
+
 router
-    .route('/hotel/room/update')
+    .route('/hotels/rooms')
     .put(ctrlHotels.updateHotelRoom);
+
 router
-    .route('/hotels/room/delete/:hotelId/:roomId')
+    .route('/hotels/rooms/:hotelId/:roomId')
     .delete(ctrlHotels.deleteHotelRoom);
-
+//np
 router
-    .route('/hotel/room/new')
+    .route('/hotels/rooms')
     .post(ctrlHotels.addHotelRoom);
-
+//np
 router
-    .route('/hotel/bookings')
+    .route('/orders')
     .get(ctrlBookings.listHotelBookings);
-
+//np
 router
-    .route('/hotel/:hotelID')
+    .route('/hotels/rooms/:hotelId')
     .get(ctrlHotels.showRoomTypes);
 
 router
-    .route('/hotel/room/checkAvalability')
+    .route('/orders/hotels/rooms')
     .post(ctrlBookings.checkAvailability);
 
 router
-    .route('/hotel/room/checkOut')
+    .route('/orders')
     .post(ctrlBookings.checkOut);
-
+//changed to bookings from users
+//np
 router
-    .route('/profile/bookings/:userName')
-    .get(ctrlUsers.retrieveOrderHistory);
-
-    console.log("wishhh");
+    .route('/orders/:userName')
+    .get(ctrlBookings.retrieveOrderHistory);
+//np
 router
-    .route('/hotel/addToWishList')
+    .route('/wishlist')
     .post(ctrlWishlist.addToWishList);
-
+//changed to wiahlist from users
+//np
 router
-    .route('/profile/wishList/:userName')
-    .get(ctrlUsers.retrieveWishList);
-
+    .route('/wishlist/:userName')
+    .get(ctrlWishlist.retrieveWishList);
+//np
 router
-    .route('/profile/wishList/delete/:hotelName')
+    .route('/wishlist/:hotelName')
     .delete(ctrlWishlist.removeFromWishList);
-
+//np
 router
-    .route('/hotel/booking/cancel/:id')
+    .route('/orders/:id')
     .delete(ctrlBookings.cancelBooking);
 
+router
+    .route('/users/login')
+    .post(passport.authenticate('local', {successRedirect:'/', failureRedirect:''}),ctrlUsers.login);
+
+/*
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        User.findOne({ username: username }, function(err, user) {
+        if (err) { return done(err); }
+        if (!user) {
+            return done(null, false, { message: 'Incorrect username.' });
+        }
+        if (!user.validPassword(password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, user);
+        });
+    }
+    ));
+    
+router.post('/login',
+    passport.authenticate('local', {successRedirect:'/', failureRedirect:''}),
+    function(req, res) {
+        res.redirect('/');
+      
+    });
+*/
 module.exports = router;

@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   searchKey: String;
   hotelList: HotelList[];
   hotelAdd = false;
+  noHotel = false;
   constructor(private userService: UserService, private hotelService: HotelService, private router: Router) { }
     // console.log(this.userService.getValue());
     // console.log(LoginComponent.access)
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
       };
       this.hotelService.retrieveHotels(hotels.searchKey)
       .subscribe(message => {
-          console.log(message.List.length);
+          console.log('Number of hotels ' + message.List.length);
+          if (message.List.length > 0) {
             this.hotelList = message.List;
             console.log(this.hotelList.length);
             for (let i = 0; i < this.hotelList.length; i++) {
@@ -47,6 +49,9 @@ export class HomeComponent implements OnInit {
                console.log(error);
              });
             }
+          } else {
+            this.noHotel = true;
+          }
       });
 
   }

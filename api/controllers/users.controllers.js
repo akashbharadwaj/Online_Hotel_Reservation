@@ -22,12 +22,13 @@ module.exports.LandingPage = function(req,res)
 };
 
 
-
+/*
 module.exports.SignupPage = function(req,res)
 {
     res.render("signupPage");
 };
 
+*/
 
 module.exports.signUpUnameExists = function(req,res)
 {   
@@ -180,10 +181,12 @@ module.exports.VerifyUser = function(req,res){
     //fetch hashed password for the given userName
     //hash = "$2a$10$rx3k2p7va6ULW3AROSECn.3SwF1TieKdN3ubYiT6TCdNRt7vKN.E6";
     //password = "akash123";
-    
+    console.log("username: "+userName);
     User.findOne({ 'userName': userName }, function (err, user) {
+        //console.log(user.length);
         if (err) return handleError(err);
-        if(user.length!=0)
+
+        if(user)
         {   
             //console.log(user);
 
@@ -203,6 +206,10 @@ module.exports.VerifyUser = function(req,res){
             var hash = passwordDb;
             //console.log(hash);
             bcrypt.compare(password, hash, function(err, res2) {
+                if(err)
+                {
+                    console.log(err);
+                }
                 if(res2==true)
                 {      
                     /*
@@ -279,16 +286,7 @@ module.exports.returnUserName = function(req,res){
 module.exports.retrieveOrderHistory = function (req, res) {
     console.log("Booking history");
     var userName = req.query.userName;
-    /*
-    var hotelId;
-    var roomId;
-    var startDate;
-    var endDate;
-    var hotelName;
-    var roomType;
-    var location;
-    var bookingDetails = [];
-    */
+    
     console.log(userName);
     Booking.find({'userId': userName}, function(err,book){
         if(book){
@@ -297,68 +295,7 @@ module.exports.retrieveOrderHistory = function (req, res) {
         }
         
     });
-    /*
-    User.findOne({ 'userName': userName }, function (err, user){
-        if(err){
-            console.log(err);
-        }
-        else
-            for (var i = 0; i < user.orderHistory.length; i++) {
-                console.log("inside loop");
-                
-                var l = i;
-                console.log(user.orderHistory[l]);
-                console.log(l);
-                Booking.findOne({'bookingId': user.orderHistory[l]}, function(err,book){
-                    hotelId = book.hotelId;
-                    roomId = book.roomId;
-                    startDate = book.startDate;
-                    endDate = book.endDate;
-                    //location = book.location;
-                    console.log("hotelID: "+hotelId);
-                    Hotel.findOne({'_id': hotelId},function(err, hotel){
-                        console.log("hotel"+hotel);
-                        if(hotel != undefined){
-                        hotelName = hotel.name;
-                        location = hotel.location;
-                        for (var j = 0; j < hotel.rooms.length; j++) {
-                            //console.log(hotel.rooms[j].roomType);
-                            if (hotel.rooms[j]._id == roomId) {
-                                var k = j;
-                                roomType = hotel.rooms[k].roomType;
-
-                                bookingDetails[l] = {
-                                    HotelName: hotelName,
-                                    RoomType: roomType,
-                                    Location: location,
-                                    StartDate: startDate,
-                                    EndDate: endDate
-                                };
-                                console.log("inside book 2");
-                                console.log(bookingDetails);
-                                res.json({booking: bookingDetails});
-                            }   
-                        }
-                    }
-                    })
-                    
-                })
-
-                if(i==user.orderHistory.length-1)
-                {   
-                    
-                    
-                    console.log("inside book 1");
-                }
-
-            }
-            
-            
-        //res.render("showRooms",{result: hotel.rooms});
-
-    })
-    */
-    //console.log("inside book 3");
+    
 }
 
 module.exports.retrieveWishList = function(req,res){
@@ -375,6 +312,11 @@ module.exports.retrieveWishList = function(req,res){
     });
 }
 
+
+module.exports.login = function(req, res) {
+    
+    res.json();
+  }
 
 
 
@@ -559,4 +501,12 @@ module.exports.addToWishList = function (req, res) {
         //send a message saying selected number is greater than available
     }
     */
+}
+
+
+module.exports.logout = function (req, res) {
+
+    User_Admin = false;
+    User_Name = "";
+    name = "";
 }
