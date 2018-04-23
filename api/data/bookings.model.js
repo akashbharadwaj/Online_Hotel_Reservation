@@ -47,7 +47,8 @@ var bookingSchema = new mongoose.Schema({
     numberOfRoomsBooked : Number,
     startDate : Date,
     endDate : Date,
-    flagBookingCancelled: Boolean
+    flagBookingCancelled: Boolean,
+    price: Number
     
 });
 bookingSchema.plugin(autoIncrement.plugin, {

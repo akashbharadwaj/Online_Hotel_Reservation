@@ -9,6 +9,8 @@
                   <a href="javascript:void(0);" (click)="onSelect(rooms)"><h2>{{rooms.roomType}}</h2></a>
                   <img [src]="rooms.photos | SanitizeHtmlPipe" class="imageSize">
                   <br>
+                  Description: {{rooms.description}}
+                  <br>
                   Price: {{rooms.price}}$
                   <br> 
                   

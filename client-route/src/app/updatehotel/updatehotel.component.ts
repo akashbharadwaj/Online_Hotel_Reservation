@@ -16,12 +16,15 @@ export class UpdatehotelComponent implements OnInit {
   image: String;
   error: false;
   hotelId: String;
+  updateHotelSuccess = false;
   constructor(private route: ActivatedRoute, private hotelService: HotelService, private router: Router) { }
 
   onUploadFinished(event) {
     this.image = JSON.parse(event.serverResponse._body).filename;
     }
     updateHotel() {
+      this.error = false;
+      this.updateHotelSuccess = false;
     // console.log(this.first_name);
     const hotel = {
       hotelId: this.hotelId,
@@ -34,7 +37,8 @@ export class UpdatehotelComponent implements OnInit {
       this.hotelService.updateHotel(hotel)
       .subscribe(message => {
           if ( message.msg) {
-            this.router.navigate(['/home']);
+            this.updateHotelSuccess = true;
+            // this.router.navigate(['/home']);
           } else {
             this.error = message.msg;
           }

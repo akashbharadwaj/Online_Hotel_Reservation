@@ -3,6 +3,7 @@ var Booking = mongoose.model('Booking');
 var Hotel = mongoose.model('Hotel');
 var User = mongoose.model('User');
 var dateUtil = require('date-util');
+
 var startDate;
 var endDate;
 var availability;
@@ -15,6 +16,8 @@ var roomType;
 var startDateDB;
 var endDateDB;
 var flagBookingCancelled = false;
+var price;
+
 module.exports.checkAvailability = function (req, res) {
     console.log("Availability");
     startDate = req.body.startDate;
@@ -45,6 +48,7 @@ module.exports.checkAvailability = function (req, res) {
                 //roomId = hotel.rooms[j]._id;
                 roomType = hotel.rooms[j].roomType;
                 numberOfRooms = hotel.rooms[j].number;
+                price = hotel.rooms[j].price;
                 console.log(numberOfRooms);
                 
                 Booking.find({ "hotelId": hotelID, "roomId": roomID, "flagBookingCancelled": false }, function (err, booking) {
@@ -74,6 +78,7 @@ module.exports.checkAvailability = function (req, res) {
                     }
                     else
                     {
+                        
                         res.json({num: availability});
                     }
                     //res1.json({numb: numberOfRooms});
@@ -98,7 +103,7 @@ module.exports.checkOut = function (req, res) {
 
     var numberOfRooms = req.body.quantity;
     var User_Name = req.body.userName;
-    
+    price = price * numberOfRooms;
     console.log("User ID: "+ User_Name) ;
     if (availability >= numberOfRooms) {
 
@@ -112,7 +117,8 @@ module.exports.checkOut = function (req, res) {
             "hotelName": hotelName,
             "location": location,
             "roomType": roomType,
-            "flagBookingCancelled": flagBookingCancelled
+            "flagBookingCancelled": flagBookingCancelled,
+            "price": price
         };
         var newBooking = new Booking(bookingData);
         newBooking.save(function (err, cb) {
@@ -167,13 +173,21 @@ module.exports.listHotelBookings = function(req,res){
 
     console.log("Booking history");
     var searchTerm = req.query.name;
-    
     console.log(searchTerm);
     
-    Booking.find({$and : [{$or:[{'hotelName': searchTerm }, {'userId' : searchTerm}]},{'flagBookingCancelled': false}]}, function(err,book){
+    if(searchTerm==undefined)
+    {
+        Booking.find({'flagBookingCancelled': false},function(err,book){
+            res.json({booking: book});
+        });
+    }
+    else
+    {
+    Booking.find({$and : [{$or:[{'hotelName': { "$regex": searchTerm, "$options": "i" } }, {'userId' : { "$regex": searchTerm, "$options": "i" }}]},{'flagBookingCancelled': false}]}, function(err,book){
         console.log(book);
         res.json({booking: book});
     });
+    }   
 }
 
 

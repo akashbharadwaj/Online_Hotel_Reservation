@@ -2,7 +2,7 @@
 <div class = "container">
     <br>
     <h2>User Profile:</h2>
-    <br>
+    
     Name: {{name}}
     <br>
     User Name: {{userName}}
@@ -21,6 +21,9 @@
             <th scope="col">Booking ID</th>
             <th scope="col">Start Date</th>
             <th scope="col">End Date</th>
+            <th scope="col">Number of Rooms</th>
+            <th scope="col">Booking Total</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody *ngFor="let bookings of bookingDetails">
@@ -31,6 +34,10 @@
               <td>{{bookings.bookingId}}</td>
               <td>{{bookings.startDate | slice:0:10}}</td>
               <td>{{bookings.endDate | slice:0:10}}</td>
+              <td>{{bookings.numberOfRoomsBooked}}</td>
+              <td>{{bookings.price}}</td>
+              <td *ngIf="bookings.flagBookingCancelled">Cancelled</td>
+              <td *ngIf="!bookings.flagBookingCancelled">Active</td>
             </tr>
         </tbody>
     </table>

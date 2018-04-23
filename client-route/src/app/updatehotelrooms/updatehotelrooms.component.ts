@@ -9,7 +9,7 @@ import { ActivatedRoute} from '@angular/router';
   providers: [HotelService],
   })
   export class UpdatehotelroomsComponent implements OnInit {
-  
+
   roomType: String;
   description: true;
   number: Number;
@@ -18,12 +18,15 @@ import { ActivatedRoute} from '@angular/router';
   error: false;
   hotelId: String;
   roomId: String;
+  updateHotelRoomSuccess = false;
   constructor(private route: ActivatedRoute, private hotelService: HotelService, private router: Router) { }
 
   onUploadFinished(event) {
     this.image = JSON.parse(event.serverResponse._body).filename;
     }
   updateRoom() {
+    this.error = false;
+    this.updateHotelRoomSuccess = false;
     // console.log(this.first_name);
     const room = {
       roomType: this.roomType,
@@ -37,7 +40,8 @@ import { ActivatedRoute} from '@angular/router';
       this.hotelService.updateRoom(room)
       .subscribe(message => {
           if ( message.msg) {
-            this.router.navigate(['/home']);
+            this.updateHotelRoomSuccess = true;
+            // this.router.navigate(['/home']);
           } else {
             this.error = message.msg;
           }

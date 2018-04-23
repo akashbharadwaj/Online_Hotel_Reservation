@@ -1,14 +1,21 @@
 <br>
-<div *ngIf = "!homeButton" class = "loginSignContainer container">
+<br>
+<div *ngIf = "homeButton" class="alert alert-dismissible alert-success container">
+    <strong>Congratulations!</strong> You have successfully logged into the application
+  </div>
+<br>
+<h3><a *ngIf = "homeButton" class="nav-link container" href="/home">NavigateToHomePage</a></h3>
+<br>
+<div *ngIf = "!homeButton" class = "loginSignContainer">
 <h2>Login:</h2>
 <form  (submit) = "login()">
   <div class = "form-group">
-    <label>User Name</label>
+    <label>User Name*</label>
     <input type = "text" [(ngModel)] = "userName" class="form-control upassWidth" name= "userName" id="userName">
   </div>
 
   <div class = "form-group">
-    <label>Password</label>
+    <label>Password*</label>
     <input type = "password" [(ngModel)] = "password" class="form-control upassWidth" name="password" id="password">
   </div>
   
@@ -22,8 +29,3 @@
 
 </div>
 <br><br>
-<div *ngIf = "homeButton" class="alert alert-dismissible alert-success container">
-    <strong>Congratulations!</strong> You have successfully logged into the application
-  </div>
-<br><br>
-<h3><a *ngIf = "homeButton" class="nav-link container" href="/home">NavigateToHomePage</a></h3>

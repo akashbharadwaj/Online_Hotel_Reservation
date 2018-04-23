@@ -1,33 +1,45 @@
+<br>
+<div class="alert alert-dismissible alert-danger loginSignContainer" *ngIf = "formError">
+    <strong>All fields are mandatory, one or more fields are not filled.</strong>
+</div>
+<div class="alert alert-dismissible alert-danger loginSignContainer" *ngIf = "error">
+    <strong>Adding hotel room was unsuccessful</strong>
+</div>
+<div class="alert alert-dismissible alert-success loginSignContainer" *ngIf = "newHotelRoomSuccess">
+        <strong>Congratulations!</strong> You successfully Created a new hotel room
+</div>
+    
 <div class = "loginSignContainer">
     <h3>Add a Room</h3>
     <form (submit) = "createNewRoom()">
       <div class = "form-group">
-        <label>Hotel</label>
+        <label>Hotel*</label>
         <input type = "text" [(ngModel)] = "hotelName" class="form-control upassWidth" name= "hotelName">
       </div>
       <div class = "form-group">
-        <label>Room Type</label>
+        <label>Room Type*</label>
         <input type = "text" [(ngModel)] = "type" class="form-control upassWidth" name="type">
       </div>
       <div class="form-group">
-          <label>Description</label>
-          <textarea class="form-control upassWidth" id="description" name = "description" rows="5"></textarea>
+          <label>Description*</label>
+          <textarea class="form-control upassWidth" [(ngModel)] = "description" id="description" name = "description" rows="5"></textarea>
       </div>
       <div class = "form-group">
-          <label>Number of Units</label>
+          <label>Number of Units*</label>
           <input type = "text" [(ngModel)] = "number" class="form-control upassWidth" name="number">
       </div>
       <div class = "form-group">
-          <label>Price</label>
+          <label>Price*</label>
           <input type = "text" [(ngModel)] = "price" class="form-control upassWidth" name="price">
       </div>
       <div>
         <image-upload [url]="'http://localhost:3000/upload/room'" (uploadFinished)="onUploadFinished($event)"></image-upload>
 
       </div>
+      <br>
       <div class="form-group">
           <input type="submit" class="btn btn btn-success" value="Create">
       </div>
     </form> 
 
-    <p *ngIf = "error">Adding a room was unsuccesful</p>
+    

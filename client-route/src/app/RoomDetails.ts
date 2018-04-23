@@ -5,5 +5,6 @@ export class RoomDetails {
     number: Number;
     price: Number;
     photos: any;
+    description: String;
 }
 

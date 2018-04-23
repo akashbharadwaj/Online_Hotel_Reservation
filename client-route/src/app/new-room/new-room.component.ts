@@ -10,17 +10,22 @@ import { HotelService} from '../hotel.service';
 export class NewRoomComponent implements OnInit {
   hotelName: String;
   type: String;
-  description: true;
+  description: String;
   number: Number;
   image: String;
   price: Number;
-  error: false;
+  error = false;
+  formError = false;
+  newHotelRoomSuccess = false;
   constructor(private hotelService: HotelService, private router: Router) { }
 
   onUploadFinished(event) {
     this.image = JSON.parse(event.serverResponse._body).filename;
     }
-    createNewRoom() {
+  createNewRoom() {
+      this.error = false;
+      this.formError = false;
+      this.newHotelRoomSuccess = false;
     // console.log(this.first_name);
     const room = {
       hotelName: this.hotelName,
@@ -30,15 +35,23 @@ export class NewRoomComponent implements OnInit {
       price: this.price,
       photos: this.image
       };
+      if (this.hotelName === undefined || this.type === undefined || this.description === undefined ||
+        this.number === undefined || this.image === undefined || this.price === undefined) {
+        console.log('Hotel' + this.hotelName + 'Type' + this.type + 'Descrip' + this.description +
+         'number' + this.number +  'image' + this.image + 'price' + this.price);
+        this.formError = true;
+      } else {
       this.hotelService.createNewRoom(room)
       .subscribe(message => {
-          if ( message.msg) {
-            this.error = message.msg;
+          if ( !message.msg) {
+            this.error = true;
           } else {
-            this.router.navigate(['/home']);
+            this.newHotelRoomSuccess = true;
+            // this.router.navigate(['/home']);
           }
       });
       }
+    }
 
 
   ngOnInit() {

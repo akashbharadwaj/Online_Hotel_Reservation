@@ -56,9 +56,20 @@ module.exports.hotelsGetOne = function (req, res) {
 module.exports.listHotels = function (req, res) {
     //console.log("redirected to list hotels");
     var searchTerm = req.query.name;
-
     console.log("search key "+searchTerm);
-    Hotel.find({$and : [{$or:[{'location': searchTerm }, {'name' : searchTerm}]},{'flagDeleted': false}]} , function (err, hotelListings) {
+
+    if(searchTerm == undefined)
+    {
+        Hotel.find({'flagDeleted': false}, function(err, hotels){
+            if (err) {
+                console.log(error);
+            } 
+                res.json({List: hotels});
+        });
+    }
+    else
+    {
+    Hotel.find({$and : [{$or:[{'location': { "$regex": searchTerm, "$options": "i" } }, {'name' : { "$regex": searchTerm, "$options": "i" }}]},{'flagDeleted': false}]} , function (err, hotels) {
         console.log("inside");
         if (err) {
             console.log(error);
@@ -67,10 +78,10 @@ module.exports.listHotels = function (req, res) {
                 //checking if the search by location returned null?
            // }
            //console.log(hotelListings);
-            res.json({List: hotelListings});
+            res.json({List: hotels});
         
     });
-    
+    }
 };
 
 
@@ -150,21 +161,33 @@ module.exports.addHotel = function (req, res) {
 
 
     };
-    var newHotel = new Hotel(data);
-    newHotel.save(function (err) {
-        if (err) {
-            console.log("error");
-            console.log(err);
-            //res.render("homepage");
-            res.json({msg:true});
+
+    Hotel.findOne({name: name}, function(err, hotelExists) {
+
+
+        if(!hotelExists)
+        {
+            var newHotel = new Hotel(data);
+            newHotel.save(function (err) {
+            if (err) {
+                console.log("error");
+                console.log(err);
+                //res.render("homepage");
+                res.json({msg:false});
+            }
+            else
+                console.log("Why");
+                console.log("success");
+            // res.render("homepage");
+            //res.send("sucess");
+                res.json({msg: true});
+        });
         }
-        else
-            console.log("Why");
-            console.log("success");
-        // res.render("homepage");
-        //res.send("sucess");
-            res.json({msg: false});
-    });
+        else{
+            res.json({msg:false});
+        }
+        
+})
 };
 
 //delete a hotel
@@ -231,10 +254,12 @@ module.exports.updateHotel = function (req, res) {
             if (description != undefined) {
                 hotel.description = description;
             }
-            if (servicesArr != undefined || servicesArr.length != 0) {
+            if (services != undefined || servicesArr.length != 0) {
+                console.log("services"+servicesArr);
                 hotel.services = servicesArr;
             }
-            if (photosArr != undefined || photosArr.length != 0) {
+            if (photos!= undefined || photosArr.length != 0) {
+                console.log("Photos"+photosArr);
                 hotel.photos = photosArr;
             }
 
@@ -274,8 +299,8 @@ module.exports.addHotelRoom = function (req, res) {
             console.log("error" + err);
             res.json({msg: true});
         }
-        else {
-            console.log(hotel);
+        else if(hotel) {
+            //console.log(hotel);
             if (hotel._id != null) {
                 if (toUpdateData[0] != undefined) {
                     //update name
@@ -285,6 +310,14 @@ module.exports.addHotelRoom = function (req, res) {
                     Hotel.findOne({ '_id': hotel._id }, function (err, roomsHotel) {
                         console.log(roomsHotel);
                         console.log(roomsHotel.rooms);
+                        
+                        const result = roomsHotel.rooms.find( rooms => rooms.roomType === type );
+                        if(result)
+                        {
+                            res.json({msg: false});
+                        }
+
+                        else {
                         try {
                             roomsHotel.rooms.push({ roomType: toUpdateData[0], number: toUpdateData[1], description: toUpdateData[2], photos: PhotosFinArr, price: toUpdateData[4] });
                         }
@@ -299,17 +332,21 @@ module.exports.addHotelRoom = function (req, res) {
                         roomsHotel.save(function (err) {
                             if (err) {
                                 console.log(err);
-                                res.json({msg: true});
+                                res.json({msg: false});
                             }
 
                             console.log("success");
-                            res.json({msg: false});
+                            res.json({msg: true});
 
                         });
-
+                    }
+                    
                     });
                 }
             }
+        }
+        else {
+            res.json({msg: false});
         }
     });
 }

@@ -1,13 +1,18 @@
 <br>
-
-<div class="alert alert-dismissible alert-success container" *ngIf = "messageCheckout">
+<div>
+<h3><a *ngIf = "!userName" class="nav-link container" href="/login">Login to book a hotel</a></h3>
+<h4 class="container" *ngIf = "!userName">OR</h4>
+<h3><a *ngIf = "!userName" class="nav-link container" href="/signUp">Signup to book a hotel</a></h3>
+</div>
+<div *ngIf = "userName">
+<div class="alert alert-dismissible alert-success loginSignContainer" *ngIf = "messageCheckout">
     <strong>Congratulations!</strong> You successfully Booked the hotel
   </div>
-  <div class="alert alert-dismissible alert-danger container" *ngIf = "wrongQuant">
+  <div class="alert alert-dismissible alert-danger loginSignContainer" *ngIf = "wrongQuant">
     <strong>Enter a positive number less than {{quant}}</strong>
   </div>
   <br><br>
-  <div class="container allignInput">
+  <div class="loginSignContainer">
       <h2>Check Availability of {{ roomType}}</h2>
       <br>
       <form (submit) = "checkAvailability()">
@@ -33,13 +38,13 @@
       <br><br>
       <input type="number" class="allignInput" [(ngModel)] ="quantity" name="quantity" min="0" max="{{quant}}">
       <br><br>
-      Click Submit to confirm booking
+      Click Submit to Confirm Booking
       <br><br>
-      <input type="submit" class="btn btn btn-success" value="Submit">
+      <input type="submit" class="btn btn btn-danger" value="Submit">
       </form>
       </div>
   </div>
   <br><br>
-  
+</div>
   
   

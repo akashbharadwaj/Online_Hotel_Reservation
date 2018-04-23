@@ -25,7 +25,7 @@ const routes: Routes = [
   {path: 'listBookings', component: ListbookingsComponent},
   {path: 'updateHotel/:id', component: UpdatehotelComponent},
   {path: 'updateRooms/:id', component: UpdatehotelroomsComponent},
-  {path: '**', component: LandingPageComponent}
+  {path: '**', component: HomeComponent}
 
 ];
 

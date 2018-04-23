@@ -4,6 +4,7 @@ import { HotelService} from '../hotel.service';
 import { Router } from '@angular/router';
 import { HotelList } from '../HotelList';
 // import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+declare var $: any;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -16,12 +17,15 @@ export class HomeComponent implements OnInit {
   hotelList: HotelList[];
   hotelAdd = false;
   noHotel = false;
+  userName: String;
+  // hotelUpdate = false;
   constructor(private userService: UserService, private hotelService: HotelService, private router: Router) { }
     // console.log(this.userService.getValue());
     // console.log(LoginComponent.access)
 
   retrieveHotels() {
-
+    this.noHotel = false;
+    // this.hotelUpdate = false;
     const hotels = {
       searchKey: this.searchKey,
       };
@@ -48,6 +52,11 @@ export class HomeComponent implements OnInit {
               // this.isImageLoading = false;
                console.log(error);
              });
+             $('#searchButton').click(function() {
+              $('html,body').animate({
+                scrollTop: $('#destination').offset().top},
+                'slow');
+            });
             }
           } else {
             this.noHotel = true;
@@ -93,8 +102,10 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit() {
     this.userService.getAccess()
-      .subscribe( access =>
-        this.access = access.access);
+    .subscribe( access => {
+      this.access = access.access;
+      this.userName = access.uName;
+    });
   }
 
 }
